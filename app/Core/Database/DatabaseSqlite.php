@@ -1,4 +1,6 @@
 <?php
+
+namespace Core\Database;
 use Core\Interface\DatabaseInterface;
 use PDO;
 use PDOException;
@@ -6,6 +8,10 @@ use PDOException;
 class DatabaseSqlite implements DatabaseInterface
 {
     public function __construct($configurazione)
+    {
+
+    }
+    public function connetti($configurazione)
     {
 
     }

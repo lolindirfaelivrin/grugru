@@ -25,7 +25,8 @@ return [
             'port' => env('DB_PORT', '3306'),
             'user' => env('DB_USER', 'root'),
             'password' => env('DB_PASS', ''),
-            'prefix' => env('DB_PREFIX', 'grugru_')
+            'prefix' => env('DB_PREFIX', 'grugru_'),
+            'database' => env('DB_DATABASE', 'grugru'),
         ]
     ]
 

@@ -7,6 +7,8 @@
  */
 
 namespace Core;
+use Core\Database\DatabaseMysql;
+use Core\Database\DatabaseSqlite;
 use Core\Http\Request;
 use Core\Http\Response;
 use Core\Database\Database;
@@ -22,7 +24,7 @@ class GruGru
     public Request $request;
     public Response $response;
     public Router $router;
-    #public Database $db;
+    public DatabaseMysql $db;
     public Session $session;
     #public Controller $controller;
     public Config $configurazione;
@@ -39,7 +41,8 @@ class GruGru
         $this->config = $config;
         $this->configurazione = new Config($config);
         $this->vista = new Vista();
-        #$this->db = new Database($this->configurazione->ottieni('connection.mysql'));
+        $this->db = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
+        dd($this->db);
 
         self::$APP = $this;
         self::$ROOTDIR = dirname(__DIR__);
@@ -51,6 +54,27 @@ class GruGru
         echo '<pre>';
         var_dump($this->config);
         echo '</pre>';
+    }
+
+    private function ottieniTipoDatabase(string $driver)
+    {
+        $driver = '';
+        switch ($driver)
+        {
+            case 'sqlite':
+            $driver =  DatabaseSqlite::class;
+            break;
+
+            case 'mysql':
+            $driver = DatabaseMysql::class;
+            break;
+
+            default:
+            $driver = DatabaseMysql::class;
+            break;
+        }    
+
+        return $driver;
     }
 
 }

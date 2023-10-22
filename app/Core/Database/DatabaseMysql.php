@@ -8,28 +8,42 @@ use PDOException;
 class DatabaseMysql implements DatabaseInterface
 {
 
-  private $dbHost = DB_HOST;
-  private $dbUser = DB_USER;
-  private $dbPass = DB_PASS;
-  private $dbName = DB_NAME;
+  private $dbHost;
+  private $dbUser;
+  private $dbPass;
+  private $dbName;
 
   private $statement;
   private $dbHandler;
   private $dberror;
 
-  public function __construct()
+  public function __construct($configurazione)
   {
+    $this->dbHost = $configurazione['host'];
+    $this->dbUser = $configurazione['user'];
+    $this->dbPass = $configurazione['password'];
+    $this->dbName = $configurazione['database'];
+
     $conn = 'mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName;
+
+    $this->dbHandler = $this->connetti($conn);
+  }
+
+  public function connetti($configurazione)
+  {
+
     $options = array(
-        PDO::ATTR_PERSISTENT => true,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+      PDO::ATTR_PERSISTENT => true,
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     );
+
     try {
-        $this->dbHandler = new PDO($conn, $this->dbUser, $this->dbPass, $options);
+      return new PDO($configurazione, $this->dbUser, $this->dbPass, $options);
     } catch (PDOException $e) {
-        $this->dberror = $e->getMessage();
-        echo $this->dberror;
+      $this->dberror = $e->getMessage();
+      echo $this->dberror;
     }
+
   }
 
   public function query($sql) 

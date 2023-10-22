@@ -2,6 +2,7 @@
 namespace Core\Interface;
 interface DatabaseInterface
 {
+    public function connetti($configurazione);
     public function query($sql);
     public function bind($param, $value, $type = null);
     public function executeQuery();
