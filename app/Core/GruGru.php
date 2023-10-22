@@ -13,6 +13,7 @@ use Core\Http\Request;
 use Core\Http\Response;
 use Core\Database\Database;
 use Core\Controller\Controller;
+use Core\Interface\DatabaseInterface;
 class GruGru
 {
     public static GruGru $APP;
@@ -24,7 +25,7 @@ class GruGru
     public Request $request;
     public Response $response;
     public Router $router;
-    public DatabaseMysql $db;
+    public DatabaseInterface $db;
     public Session $session;
     #public Controller $controller;
     public Config $configurazione;
@@ -32,6 +33,9 @@ class GruGru
 
     public function __construct(string $rootdir, array $config)
     {
+        self::$APP = $this;
+        self::$ROOTDIR = dirname(__DIR__);
+        
         #Oppure posso instanziare direttamente qui le classi
         $this->request = new Request();
         $this->response = new Response();
@@ -41,11 +45,7 @@ class GruGru
         $this->config = $config;
         $this->configurazione = new Config($config);
         $this->vista = new Vista();
-        $this->db = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
-        dd($this->db);
-
-        self::$APP = $this;
-        self::$ROOTDIR = dirname(__DIR__);
+        $this->db = $this->ottieniTipoDatabase($this->configurazione->ottieni('default'));
 
     }
 
@@ -58,19 +58,20 @@ class GruGru
 
     private function ottieniTipoDatabase(string $driver)
     {
-        $driver = '';
+        //TODO: Guarda il codice generato da chatGpt.
+        $driver;
         switch ($driver)
         {
             case 'sqlite':
-            $driver =  DatabaseSqlite::class;
+            $driver =  new DatabaseSqlite($this->configurazione->ottieni('connection.sqlite'));
             break;
 
             case 'mysql':
-            $driver = DatabaseMysql::class;
+            $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
             break;
 
             default:
-            $driver = DatabaseMysql::class;
+            $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
             break;
         }    
 

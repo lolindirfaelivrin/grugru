@@ -1,7 +1,13 @@
 <?php
 namespace Core\Model;
+use Core\GruGru;
 abstract class Model
 {
+    public $db;
+    public function __construct()
+    {
+        $this->db = GruGru::$APP->db;
+    }
     public const REGOLA_TESTO = 'testo';
     private array $errori = [];
     abstract public function regole():array;
