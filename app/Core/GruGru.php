@@ -45,7 +45,9 @@ class GruGru
         $this->config = $config;
         $this->configurazione = new Config($config);
         $this->vista = new Vista();
-        $this->db = $this->ottieniTipoDatabase($this->configurazione->ottieni('default'));
+        #$this->db = $this->ottieniTipoDatabase($this->configurazione->ottieni('default'));
+        $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
+
 
     }
 
