@@ -7,7 +7,7 @@
  */
 
 namespace Core;
-use Core\Exception\NonTrovato;
+
 use Core\Exception\RottaNonTrovata;
 use Core\Exception\VistaNonTrovata;
 use Core\Http\Request;

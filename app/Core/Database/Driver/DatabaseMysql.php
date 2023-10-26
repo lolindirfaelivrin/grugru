@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Database;
+namespace Core\Database\Driver;
 use Core\Interface\DatabaseInterface;
 use PDO;
 use PDOException;

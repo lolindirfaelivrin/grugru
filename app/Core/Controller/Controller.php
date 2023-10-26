@@ -4,6 +4,7 @@ namespace Core\Controller;
 
 use Core\Exception\VistaNonTrovata;
 use Core\GruGru;
+use Core\Http\enum\HttpstatusCode;
 
 
 class Controller
@@ -19,12 +20,16 @@ class Controller
             }
 
         } catch (VistaNonTrovata $errore) {
-            
+
             if(env('APP_DEBUG') === 'false')
             {
-                echo $this->generaVista('Errori/404');
-            }
+                $codice = HttpstatusCode::from($errore->getCode());
+                GruGru::$APP->response->setHttpCode($codice);
 
+                $data = ['codice' => $errore->getCode(), 'messaggio' => $errore->getMessage()];
+                return $this->generaVista('Errori/PaginaErrore', $data);
+            }
+  
             $data = ['e' => $errore];
             return $this->generaVista('Errori/Errori', $data);
         }
@@ -49,4 +54,5 @@ class Controller
         require_once GruGru::$ROOTDIR . '/views/' . $views . $this->estensione;
         return ob_get_clean();
     }
+
 }

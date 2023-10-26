@@ -7,8 +7,8 @@
  */
 
 namespace Core;
-use Core\Database\DatabaseMysql;
-use Core\Database\DatabaseSqlite;
+use Core\Database\Driver\DatabaseMysql;
+use Core\Database\Driver\DatabaseSqlite;
 use Core\Http\Request;
 use Core\Http\Response;
 use Core\Database\Database;
@@ -18,16 +18,16 @@ class GruGru
 {
     public static GruGru $APP;
     public static $ROOTDIR;
-    public static string $VERSIONE = '0.3.1';
+    public static string $VERSIONE = '0.3.2';
 
     private array $config;
 
     public Request $request;
     public Response $response;
     public Router $router;
-    public DatabaseInterface $db;
+    public Database $db;
     public Session $session;
-    #public Controller $controller;
+    public Controller $controller;
     public Config $configurazione;
     public Vista $vista;
 
@@ -40,12 +40,11 @@ class GruGru
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
-        #$this->controller = new Controller($this->response, $this->request);
+        $this->controller = new Controller();
         $this->session = new Session();
         $this->config = $config;
         $this->configurazione = new Config($config);
         $this->vista = new Vista();
-        #$this->db = $this->ottieniTipoDatabase($this->configurazione->ottieni('default'));
         $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
 
 

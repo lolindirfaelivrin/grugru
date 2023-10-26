@@ -1,6 +1,11 @@
 <?php
-use Core\Http\enum\HttpstatusCode;
+declare(strict_types=1);
 error_reporting(E_ALL);
+
+
+use Core\Exception\RottaNonTrovata;
+use Core\Http\enum\HttpstatusCode;
+
 
 //Importo il file che carica tutto il necessario
 use Core\GruGru;
@@ -28,11 +33,10 @@ require '../app/rotte/web.php';
 
 try {
     echo $grugru->router->risolvi();
-} catch(Exception $errore) {
-
-    //TODO: modificare la classe Exception che restituisca istanza di HttpstatusCode
-    $grugru->response->esci($errore->getMessage(), $errore->getCode());
-}
+} catch(RottaNonTrovata $errore)
+    {
+        $grugru->response->esci($errore->getMessage(), HttpstatusCode::from($errore->getCode()));
+    }
 
 
 ?>

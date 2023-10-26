@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Core\Http\enum;
 
 enum HttpstatusCode: int

@@ -1,9 +1,11 @@
 <?php
 namespace Core\Model;
+use Core\Database\Database;
 use Core\GruGru;
 abstract class Model
 {
-    public $db;
+    /** @var Database $db */
+    public Database $db;
     public function __construct()
     {
         $this->db = GruGru::$APP->db;
@@ -33,5 +35,10 @@ abstract class Model
         }
 
         return '';
+    }
+
+    public function getTabella()
+    {
+        return 'tabella';
     }
 }

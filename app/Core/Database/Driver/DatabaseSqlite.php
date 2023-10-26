@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Database;
+namespace Core\Database\Driver;
 use Core\GruGru;
 use Core\Interface\DatabaseInterface;
 use PDO;
@@ -9,6 +9,7 @@ use PDOException;
 class DatabaseSqlite implements DatabaseInterface
 {
     protected $pdo;
+    protected $statement;
     public function __construct($configurazione)
     {
         try {
@@ -27,7 +28,7 @@ class DatabaseSqlite implements DatabaseInterface
     }
     public function query($sql)
     {
-
+        $this->statement = $this->pdo->prepare($sql);
     }
     public function bind($param, $value, $type = null)
     {
@@ -35,11 +36,12 @@ class DatabaseSqlite implements DatabaseInterface
     }
     public function executeQuery() 
     {
-
+        return $this->statement->execute();
     }
     public function resultSet()
     {
-
+        $this->executeQuery();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
     public function resultSetArray()
     {

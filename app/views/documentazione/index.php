@@ -25,7 +25,20 @@
             <li>Request</li>
             <li>Response</li>
             <li>Controller</li>
+            <li><a href="/validazione">Validazione</a></li>
+            <li><a href="/configurazione">Configurazione</a></li>
         </ul>
+    </section>
+
+    <section>
+        <h2>Struttura delle Disrectory</h2>
+        <p>La struttura delle Disrectory è molto importante, il framework <strong>GruGru</strong> utilizza questa distribubione dei file e delle cartelle</p>
+        <h3>Cartella src</h3>
+        <p>In questa cartella sono contenuti tutte le classi create dall'utente</p>
+        <h3>Cartella views</h3>
+        <p>Qui sono presenti i file delle viste, la documentazione del framework e la pagina principale. Ovviamente tutti i file possono essere
+            gestiti in autonomia.
+        </p>
     </section>
 
     <section>

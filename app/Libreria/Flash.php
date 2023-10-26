@@ -22,7 +22,10 @@ class Flash extends Session
     {
         if($this->esisteChiave($chiave))
         {
-            return $this->prendiValoreChiave($chiave);
+            $messaggio =  $this->prendiValoreChiave($chiave);
+            $this->eliminaChiave($chiave);
+
+            return $messaggio;           
         }
     }
 }
