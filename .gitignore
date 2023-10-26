@@ -1,5 +1,7 @@
 VERSIONI.md
+README.md
 .env
 .DS_store
-src
 *.txt
+database/
+src/
