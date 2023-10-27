@@ -3,7 +3,7 @@ README.md
 .env
 .DS_store
 *.txt
-database/
+app/database/
 src/
 views/
 public/
