@@ -31,6 +31,11 @@ ini_set('error_log', GruGru::$ROOTDIR.'/storage/log/error_' . gmdate('d_m_Y') . 
 
 require '../app/rotte/web.php';
 
+$chiave = ['id' => '1', 'nome' => 'ciao'];
+GruGru::$APP->session->aggiungiChiaveValore($chiave);
+
+dd($_SESSION);
+
 try {
     echo $grugru->router->risolvi();
 } catch(RottaNonTrovata $errore)

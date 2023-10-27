@@ -31,7 +31,7 @@ class Session
         return array_key_exists($chiave, $_SESSION[]);
     }
 
-    public function aggiungiChiaveValore(string|array $chiave, string $valore)
+    public function aggiungiChiaveValore(string|array $chiave, string $valore = '')
     {
         if (is_array($chiave))
         {
