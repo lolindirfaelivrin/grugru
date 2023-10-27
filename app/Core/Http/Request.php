@@ -6,6 +6,8 @@ class Request
 {
     private string $metodo = '__method';
 
+    private array $routeParams = [];
+
     public function getRequestMethod()
     {
         if(isset($_POST[$this->metodo]) && in_array($_POST[$this->metodo], ['delete', 'put']))
@@ -58,6 +60,22 @@ class Request
     public function typeIs(string $tipo_di_richiesta): bool
     {
         return $this->getRequestMethod() === strtolower($tipo_di_richiesta);
+    }
+
+    public function setRouteParams($params)
+    {
+        $this->routeParams = $params;
+        return $this;
+    }
+
+    public function getRouteParams()
+    {
+        return $this->routeParams;
+    }
+
+    public function getRouteParam($param, $default = null)
+    {
+        return $this->routeParams[$param] ?? $default;
     }
 
 }

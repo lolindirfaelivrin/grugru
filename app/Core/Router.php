@@ -117,9 +117,24 @@ class Router
 
             }
 
+            $rotteRegEx = "@^" . preg_replace_callback('/\{w+(:([^}]+))?}/',fn($m) => isset($m[2]) ? "({$m[2]})" : '(\w+)', $rotta);
+
+            if(preg_match_all($rotteRegEx, $url, $valueMatches))
+            {
+                $values = [];
+                for($i = 0; $i < count($valueMatches); $i++)
+                {
+                    $values[] = $valueMatches[$i][0];
+                }
+                $parametriDelleRotte = array_combine($rottaNomi, $values);
+
+                $this->request->setRouteParams($parametriDelleRotte);
+                return $callback;
+            }
+
         }
 
-        return $parametriDelleRotte;
+        return false;
     }
 
 }
