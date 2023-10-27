@@ -1,19 +1,38 @@
 <?php
-
-function dd($dati)
+if (!function_exists('dd'))
 {
-    echo '<pre>';
-    var_dump($dati);
-    echo '</pre>';
-    exit;
+    /**
+     * Fa il dump di variabile/i a schermo e interrompe l'esecuzione dello script
+     *
+     * @param mixed $dati variabile/i da mostrare
+     * @return mixed
+     */
+    function dd(...$dati)
+    {
+        echo '<pre>';
+        var_dump(...$dati);
+        echo '</pre>';
+        exit;
+    }
 }
 
-function dump($dati)
+if (!function_exists('dump'))
 {
-    echo '<pre>';
-    var_dump($dati);
-    echo '</pre>';
+    /**
+     * Fa il dump di variabile/i a schermo
+     *
+     * @param  mixed $dati variabile/i da mostrare
+     * @return mixed
+     */
+    function dump(...$dati)
+    {
+        echo '<pre>';
+        var_dump(...$dati);
+        echo '</pre>';
+    }
+
 }
+
 
 if (!function_exists('env')) {
     /**
