@@ -15,6 +15,7 @@ $grugru->router->get('/utente', [Utente::class, 'index']);
 $grugru->router->get('/nuovo/utente', [Utente::class, 'nuovo']);
 $grugru->router->post('/nuovo/utente', [Utente::class, 'nuovo']);
 $grugru->router->get('/dettaglio/{nomeutente}', [Utente::class, 'profilo']);
+$grugru->router->get('/dettaglio/{id:\d+}/{nomeutente}', [Utente::class, 'profilo']);
 
 
 $grugru->router->post('/contatti', [Home::class, 'contatti']);
