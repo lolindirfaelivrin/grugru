@@ -1,0 +1,25 @@
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 19:50:34 UTC] PHP Warning:  preg_match_all(): No ending delimiter '@' found in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 122
+[27-Oct-2023 20:15:49 UTC] PHP Fatal error:  Uncaught ValueError: array_combine(): Argument #1 ($keys) and argument #2 ($values) must have the same number of elements in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php:133
+Stack trace:
+#0 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(133): array_combine(Array, Array)
+#1 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(61): Core\Router->getCallback()
+#2 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
+#3 {main}
+  thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 133
+[27-Oct-2023 20:34:48 UTC] PHP Fatal error:  Uncaught ValueError: array_combine(): Argument #1 ($keys) and argument #2 ($values) must have the same number of elements in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php:133
+Stack trace:
+#0 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(133): array_combine(Array, Array)
+#1 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(61): Core\Router->getCallback()
+#2 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
+#3 {main}
+  thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 133

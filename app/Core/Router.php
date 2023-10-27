@@ -59,7 +59,11 @@ class Router
         if(!$callback)
         {
             $callback = $this->getCallback();
-            throw new RottaNonTrovata();
+
+            if($callback === false)
+            {
+                throw new RottaNonTrovata();
+            }
         }
 
         if(is_string($callback))
@@ -113,19 +117,19 @@ class Router
 
             if(preg_match_all('/\{(\w+)(:[^}]+)?}/', $rotta, $corrispondenze))
             {
-                $rottaNomi = $corrispondenze[1];
+                $rottaNomi = $corrispondenze[1]; 
 
             }
 
-            $rotteRegEx = "@^" . preg_replace_callback('/\{w+(:([^}]+))?}/',fn($m) => isset($m[2]) ? "({$m[2]})" : '(\w+)', $rotta);
+            $rotteRegEx = "@^" . preg_replace_callback('/\{\w+(:([^}]+))?}/', fn($m) => isset($m[2]) ? "({$m[2]})" : '(\w+)', $rotta) . "$@";
 
             if(preg_match_all($rotteRegEx, $url, $valueMatches))
             {
                 $values = [];
-                for($i = 0; $i < count($valueMatches); $i++)
+                for($i = 1; $i < count($valueMatches); $i++)
                 {
                     $values[] = $valueMatches[$i][0];
-                }
+                } 
                 $parametriDelleRotte = array_combine($rottaNomi, $values);
 
                 $this->request->setRouteParams($parametriDelleRotte);
