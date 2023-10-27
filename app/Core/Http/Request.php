@@ -78,4 +78,9 @@ class Request
         return $this->routeParams[$param] ?? $default;
     }
 
+    public function getRouteParamsNames()
+    {
+        return array_keys($this->routeParams);
+    }
+
 }
