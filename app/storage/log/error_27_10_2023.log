@@ -23,3 +23,35 @@ Stack trace:
 #2 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
 #3 {main}
   thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php on line 133
+[27-Oct-2023 22:07:52 UTC] PHP Fatal error:  Uncaught TypeError: src\models\UtenteModel::trova(): Return value must be of type array, bool returned in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php:39
+Stack trace:
+#0 /Users/fab/Documents/Code/Progetti/GruGru/app/src/controllers/Utente.php(45): src\models\UtenteModel->trova('4')
+#1 [internal function]: src\controllers\Utente->profilo(Object(Core\Http\Request), Object(Core\Http\Response))
+#2 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(79): call_user_func(Array, Object(Core\Http\Request), Object(Core\Http\Response))
+#3 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
+#4 {main}
+  thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php on line 39
+[27-Oct-2023 22:13:41 UTC] PHP Fatal error:  Uncaught TypeError: src\models\UtenteModel::trova(): Return value must be of type ?array, bool returned in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php:39
+Stack trace:
+#0 /Users/fab/Documents/Code/Progetti/GruGru/app/src/controllers/Utente.php(45): src\models\UtenteModel->trova(4)
+#1 [internal function]: src\controllers\Utente->profilo(Object(Core\Http\Request), Object(Core\Http\Response))
+#2 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(79): call_user_func(Array, Object(Core\Http\Request), Object(Core\Http\Response))
+#3 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
+#4 {main}
+  thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php on line 39
+[27-Oct-2023 22:17:23 UTC] PHP Fatal error:  Uncaught TypeError: src\models\UtenteModel::trova(): Return value must be of type ?array, bool returned in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php:39
+Stack trace:
+#0 /Users/fab/Documents/Code/Progetti/GruGru/app/src/controllers/Utente.php(45): src\models\UtenteModel->trova(4)
+#1 [internal function]: src\controllers\Utente->profilo(Object(Core\Http\Request), Object(Core\Http\Response))
+#2 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(79): call_user_func(Array, Object(Core\Http\Request), Object(Core\Http\Response))
+#3 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
+#4 {main}
+  thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php on line 39
+[27-Oct-2023 22:17:25 UTC] PHP Fatal error:  Uncaught TypeError: src\models\UtenteModel::trova(): Return value must be of type ?array, bool returned in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php:39
+Stack trace:
+#0 /Users/fab/Documents/Code/Progetti/GruGru/app/src/controllers/Utente.php(45): src\models\UtenteModel->trova(4)
+#1 [internal function]: src\controllers\Utente->profilo(Object(Core\Http\Request), Object(Core\Http\Response))
+#2 /Users/fab/Documents/Code/Progetti/GruGru/app/Core/Router.php(79): call_user_func(Array, Object(Core\Http\Request), Object(Core\Http\Response))
+#3 /Users/fab/Documents/Code/Progetti/GruGru/public/index.php(40): Core\Router->risolvi()
+#4 {main}
+  thrown in /Users/fab/Documents/Code/Progetti/GruGru/app/src/models/UtenteModel.php on line 39
