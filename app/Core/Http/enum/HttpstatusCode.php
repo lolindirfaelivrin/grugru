@@ -6,6 +6,7 @@ enum HttpstatusCode: int
 {
     case OK = 200;
     case Creato = 201;
+    case Redirect = 302;
     case Vietato = 403;
     case NonTrovato = 404;
     case ErroreInterno = 500;
