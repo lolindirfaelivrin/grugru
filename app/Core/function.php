@@ -1,4 +1,7 @@
 <?php
+use Core\Http\Redirect;
+use Core\Http\Response;
+
 if (!function_exists('dd'))
 {
     /**
@@ -45,5 +48,19 @@ if (!function_exists('env')) {
     function env($key, $default = null): ?string
     {
         return $_ENV[$key] ?? $default;
+    }
+}
+
+if( !function_exists('redirect'))
+{
+    /**
+     * Reindirizza ad una spacifica pagina
+     *
+     * @param string $url indirizzo a cui si deve essere inviati
+     * @return Response
+     */
+    function redirect($url): Response
+    {
+        return new Redirect($url);
     }
 }
