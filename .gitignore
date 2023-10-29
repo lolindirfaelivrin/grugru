@@ -3,8 +3,9 @@ README.md
 .env
 .DS_store
 *.txt
-app/database/
 src/
 views/
 public/
+app/database/
 app/rotte/
+app/storage

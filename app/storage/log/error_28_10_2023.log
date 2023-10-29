@@ -1,2 +1,0 @@
-[28-Oct-2023 12:34:43 UTC] PHP Warning:  Undefined property: stdClass::$nome in /Users/fab/Documents/Code/Progetti/GruGru/app/views/utente/dettaglio.php on line 10
-[28-Oct-2023 12:34:43 UTC] PHP Warning:  Undefined property: stdClass::$nome in /Users/fab/Documents/Code/Progetti/GruGru/app/views/utente/dettaglio.php on line 13
