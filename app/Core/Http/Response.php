@@ -5,7 +5,7 @@ use Core\Http\enum\HttpstatusCode;
 
 class Response
 {
-    public function __construct(protected mixed $corpo = '', protected HttpstatusCode $codice = HttpstatusCode::OK, protected array $header = [])
+    public function __construct(protected mixed $risposta = '', protected HttpstatusCode $codice = HttpstatusCode::OK, protected array $header = [])
     {}
     public function setHttpCode(HttpstatusCode $codice)
     {
@@ -43,11 +43,11 @@ class Response
         exit;
     }
 
-    protected function invia(mixed $corpo)
+    protected function invia(mixed $risposta)
     {
         echo (in_array('application/json', $this->header)) ?
-            json_encode($corpo) :
-            $corpo;
+            json_encode($risposta) :
+            $risposta;
     }
     
 }
