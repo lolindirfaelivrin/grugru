@@ -50,7 +50,21 @@ class Query
 
     public function select()
     {
-        return trim("SELECT {$this->campi} FROM {$this->table} {$this->ordine}");
+        $sql = "SELECT {$this->campi} FROM {$this->table}";
+        if(!empty($this->where))
+        {
+            $sql .= ' WHERE ';
+            foreach($this->where as $indice => $dove)
+            {
+                if($indice > 0)
+                {
+                    $sql .= $dove['tipo']. ' ';
+                }
+                $sql .= $dove['colonna']. ' '
+                . $dove['operatore']
+                . ' ?';
+            }
+        }
     }
 
     public function insert()
