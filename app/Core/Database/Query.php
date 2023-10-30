@@ -65,6 +65,12 @@ class Query
                 . ' ?';
             }
         }
+
+        if(!empty($this->ordine))
+        {
+            $sql .= " {$this->ordine}";
+        } 
+        return $sql;
     }
 
     public function insert()
