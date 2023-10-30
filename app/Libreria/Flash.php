@@ -13,7 +13,7 @@ class Flash extends Session
         $this->chiave_flash = $chiave_flash;
     }
 
-    public function aggiungi(string $chiave, mixed $valore)
+    public function aggiungi(string $chiave, mixed $valore): void
     {
         $flash = $this->prendiValoreChiave($this->chiave_flash) ?? [];
         $flash[$chiave][] = $valore;
@@ -24,10 +24,10 @@ class Flash extends Session
     {
         $flash = $this->prendiValoreChiave($this->chiave_flash) ?? [];
         if (isset($flash[$chiave])) {
-            $messages = $flash[$chiave];
+            $messaggio = $flash[$chiave];
             unset($flash[$chiave]);
             $this->aggiungiChiaveValore($this->chiave_flash, $flash);
-            return $messages;
+            return $messaggio;
         }
         return [];
     }
