@@ -2,22 +2,32 @@
 
 namespace Core\Http;
 use Core\Http\enum\HttpstatusCode;
+use Libreria\Flash;
 
 class Redirect extends Response
 {
-    public function __construct(string $url)
+    public function __construct(string $url = '')
     {
         parent::__construct('', HttpstatusCode::Redirect, ['location' => $url] );
 
     }
 
-    public function conMessaggio()
+    public function url(string $url)
     {
-        
+        $this->setHeader(['location' ,$url]);
+        return $this;
     }
 
-    public function invia()
+    public function conMessaggio(string $indice, string $messaggio)
     {
-        return header('Location'.$this->header['location'], true, $this->codice->value);
+         (new Flash())->aggiungi( $indice, $messaggio );
+
+         return $this;
+
+    }
+
+    public function vai()
+    {
+        return header('Location: '.$this->header['location'], true, $this->codice->value);
     }
 }
