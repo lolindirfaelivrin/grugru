@@ -28,10 +28,10 @@ class Session
         2) $sessione->esisteChiave('chiave.connessione');
         */
        $chiavi = explode('.', $chiave);
-        return array_key_exists($chiave, $_SESSION[]);
+        return array_key_exists($chiave, $_SESSION);
     }
 
-    public function aggiungiChiaveValore(string|array $chiave, string $valore = '')
+    public function aggiungiChiaveValore(string|array $chiave, string|array $valore = '')
     {
         if (is_array($chiave))
         {
@@ -48,7 +48,7 @@ class Session
         }       
     }
 
-    public function prendiValoreChiave(string $chiave, $default = null): ?string
+    public function prendiValoreChiave(string $chiave, $default = null)
     {
         return $_SESSION[$chiave] ?? $default;
     }

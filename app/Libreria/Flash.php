@@ -15,17 +15,20 @@ class Flash extends Session
 
     public function aggiungi(string $chiave, mixed $valore)
     {
-        $this->aggiungiChiaveValore($chiave, $valore);
+        $flash = $this->prendiValoreChiave($this->chiave_flash) ?? [];
+        $flash[$chiave][] = $valore;
+        $this->aggiungiChiaveValore($this->chiave_flash, $flash);
     }
 
-    public function mostra(string $chiave)
+    public function mostra(string $chiave):array
     {
-        if($this->esisteChiave($chiave))
-        {
-            $messaggio =  $this->prendiValoreChiave($chiave);
-            $this->eliminaChiave($chiave);
-
-            return $messaggio;           
+        $flash = $this->prendiValoreChiave($this->chiave_flash) ?? [];
+        if (isset($flash[$chiave])) {
+            $messages = $flash[$chiave];
+            unset($flash[$chiave]);
+            $this->aggiungiChiaveValore($this->chiave_flash, $flash);
+            return $messages;
         }
+        return [];
     }
 }
