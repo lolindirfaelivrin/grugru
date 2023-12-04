@@ -9,9 +9,15 @@ if (!function_exists('dd'))
      *
      * @param mixed $dati variabile/i da mostrare
      * @return mixed
+     * @see https://youtu.be/EI0nTQle4vw?si=h0HpFLccv1su2P0E
      */
     function dd(...$dati)
     {
+        $traccia = debug_backtrace();
+        $file = $traccia[0]['file'];
+        $linea = $traccia[0]['line'];
+
+        echo "// $file:$linea\n";
         echo '<pre>';
         var_dump(...$dati);
         echo '</pre>';
@@ -29,6 +35,11 @@ if (!function_exists('dump'))
      */
     function dump(...$dati)
     {
+        $traccia = debug_backtrace();
+        $file = $traccia[0]['file'];
+        $linea = $traccia[0]['line'];
+
+        echo "// $file:$linea\n";
         echo '<pre>';
         var_dump(...$dati);
         echo '</pre>';
