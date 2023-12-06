@@ -17,10 +17,11 @@ if (!function_exists('dd'))
         $file = $traccia[0]['file'];
         $linea = $traccia[0]['line'];
 
+        echo "<div style='font-family: monospace'>";
         echo "// $file:$linea\n";
         echo '<pre>';
         var_dump(...$dati);
-        echo '</pre>';
+        echo '</pre></div>';
         exit;
     }
 }
@@ -74,4 +75,32 @@ if( !function_exists('redirect'))
     {
         return new Redirect($url);
     }
+}
+
+if( !function_exists('vuoto'))
+{
+    /**
+     * Controlla se una variabile è vuota
+     * @param mixed $valore
+     * @return bool
+     */
+
+     function vuoto($valore)
+     {
+        if(is_null($valore))
+        {
+            return true;
+        }
+
+        if (is_string($valore)) {
+            return trim($valore) === '';
+        }
+
+        if (is_numeric($valore) || is_bool($valore)) {
+            return false;
+        }        
+
+        return empty($valore);
+
+     }
 }
