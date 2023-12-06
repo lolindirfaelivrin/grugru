@@ -80,7 +80,7 @@ if( !function_exists('redirect'))
 if( !function_exists('vuoto'))
 {
     /**
-     * Controlla se una variabile è vuota
+     * Determina se una variabile è vuota
      * @param mixed $valore
      * @return bool
      */
@@ -103,4 +103,18 @@ if( !function_exists('vuoto'))
         return empty($valore);
 
      }
+}
+
+if(! function_exists('pieno'))
+{
+    /**
+     * Determina se una variabile ha un valore
+     *
+     * @param mixed $valore
+     * @return bool
+     */
+    function pieno($valore)
+    {
+        return !vuoto($valore);
+    }
 }
