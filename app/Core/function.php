@@ -118,3 +118,31 @@ if(! function_exists('pieno'))
         return !vuoto($valore);
     }
 }
+
+if( !function_exists('e'))
+{
+    /**
+     * Encode HTML special characters di una stringa
+     *
+     * @param string $valore
+     * @param boolean $doubleEncode
+     * @return string
+     */
+    function e($valore, $doubleEncode = true)
+    {
+        return htmlspecialchars($valore ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', $doubleEncode);
+    }
+
+}
+
+if (! function_exists('windows_os')) {
+    /**
+     * Deternina se il sistema attuale è un sistema della famiglia Windows.
+     *
+     * @return bool
+     */
+    function windows_os()
+    {
+        return PHP_OS_FAMILY === 'Windows';
+    }
+}
