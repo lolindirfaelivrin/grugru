@@ -14,8 +14,13 @@ class Query
         return $this;
     }
 
-    public function campi(string $campi = '*')
+    public function campi(string|array $campi = '*')
     {
+        if(is_array($campi))
+        {
+            $this->campi = implode(',', $campi);
+        }
+        
         $this->campi = $campi;
         return $this;
     }
@@ -75,17 +80,17 @@ class Query
 
     public function insert()
     {
-        $valori = str_replace(",", " ", trim($this->campi));
-        return trim("INSERT INTO {$this->table} ({$this->campi}) VALUES (:{$valori})");
+        return trim("INSERT INTO {$this->table} ({$this->campi}) VALUES (:".implode(' :',explode(',', $this->campi)).")");
     }
 
     public function update()
     {
+        return trim("UPDATE {$this->table} SET ");
 
     }
 
-    public function delete(string $chiave)
+    public function delete(string|int $chiave, string $pk)
     {
-        return trim("DELETE FROM {$this->table} WHERE {$chiave} = :chiave");
+        return trim("DELETE FROM {$this->table} WHERE {$pk} = :$chiave");
     }
 }
