@@ -12,6 +12,8 @@ class Controller
     private string $estensione = '.php';
     public function view($views, $data = [])
     {
+        $views = $this->generaPercorsoVista($views);
+        
         try {
 
             if (!file_exists(GruGru::$ROOTDIR . '/views/' . $views . $this->estensione))
@@ -53,6 +55,18 @@ class Controller
         ob_start();
         require_once GruGru::$ROOTDIR . '/views/' . $views . $this->estensione;
         return ob_get_clean();
+    }
+
+    private function generaPercorsoVista(string $vista):string
+    {
+        $percorso = explode('.', $vista);
+
+        if(count($percorso) === 1)
+        {
+            return $vista;
+        }
+
+        return implode($vista, DIRECTORY_SEPARATOR);
     }
 
 }
