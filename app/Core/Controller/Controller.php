@@ -13,7 +13,7 @@ class Controller
     public function view($views, $data = [])
     {
         $views = $this->generaPercorsoVista($views);
-        
+
         try {
 
             if (!file_exists(GruGru::$ROOTDIR . '/views/' . $views . $this->estensione))
@@ -66,7 +66,7 @@ class Controller
             return $vista;
         }
 
-        return implode($vista, DIRECTORY_SEPARATOR);
+        return implode(DIRECTORY_SEPARATOR, $percorso);
     }
 
 }
