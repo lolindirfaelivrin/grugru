@@ -57,6 +57,12 @@ class Controller
         return ob_get_clean();
     }
 
+    /**
+     * Converte il percoso della vista dalla notazione a punto all'indirizzo 
+     *
+     * @param string $vista Percorso della vista
+     * @return string
+     */
     private function generaPercorsoVista(string $vista):string
     {
         $percorso = explode('.', $vista);
