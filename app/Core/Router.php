@@ -18,7 +18,7 @@ class Router
     private Request $request;
     private Response $response;
     private array $rotte = [];
-    private array $metodi_concessi = ['get', 'post', 'put', 'delete'];
+    private array $metodi_concessi = ['get', 'post', 'put', 'patch', 'delete'];
 
     public function __construct(Request $request, Response $response)
     {
@@ -62,6 +62,14 @@ class Router
             } else {
                 throw new RottaNonTrovata('Questa rotta non può essere raggiunta', 400);
             }
+        }
+    }
+
+    public function qualsiasi($url, $callback)
+    {
+        foreach($this->metodi_concessi as $metodo)
+        {
+            $this->setRotta($metodo, $url, $callback);
         }
     }
 
