@@ -10,7 +10,7 @@ class Request
 
     public function getRequestMethod()
     {
-        if(isset($_POST[$this->metodo]) && in_array($_POST[$this->metodo], ['delete', 'put']))
+        if(isset($_POST[$this->metodo]) && in_array($_POST[$this->metodo], ['delete', 'put', 'patch']))
         {
             return $_POST[$this->metodo];
         }
