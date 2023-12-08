@@ -18,6 +18,7 @@ class Router
     private Request $request;
     private Response $response;
     private array $rotte = [];
+    private array $metodi_concessi = ['get', 'post', 'put', 'delete'];
 
     public function __construct(Request $request, Response $response)
     {
@@ -48,6 +49,20 @@ class Router
     public function delete(string $url, $callback)
     {
         $this->setRotta('delete', $url, $callback);
+    }
+
+    public function includi(string $metodi, $url, $callback)
+    {
+        $elenco = explode('|', $metodi);
+
+        foreach ($elenco as $metodo) {
+            if(in_array(strtolower($metodo), $this->metodi_concessi))
+            {
+                $this->setRotta($metodo, $url, $callback);
+            } else {
+                throw new RottaNonTrovata('Questa rotta non può essere raggiunta', 400);
+            }
+        }
     }
 
     public function risolvi()
