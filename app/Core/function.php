@@ -146,3 +146,18 @@ if (! function_exists('windows_os')) {
         return PHP_OS_FAMILY === 'Windows';
     }
 }
+
+if (! function_exists('memoriaInFormatoUmano'))
+{
+    /**
+     * Trasforma i bity in un formato leggibile
+     *
+     * @param string $size
+     * @return string
+     */
+    function memoriaInFormatoUmano($size)
+    {
+        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+        return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+    }
+}
