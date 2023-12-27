@@ -151,6 +151,8 @@ if (! function_exists('memoriaInFormatoUmano'))
 {
     /**
      * Trasforma i bity in un formato leggibile
+     * ! Da spostare in eventuale libreria dedicata
+     * TODO: capire il fomato di $size
      *
      * @param string $size
      * @return string
