@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * User: GruGru - Mostrillo <3
@@ -97,6 +98,7 @@ class Router
         if(is_array($callback))
         {
             $callback[0] = new $callback[0]();
+            $callback[0]->azione = $callback[1]; #Imposta azione del controller
         }
 
         return  call_user_func($callback, $this->request, $this->response);
