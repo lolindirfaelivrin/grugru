@@ -1,15 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace Core\Controller;
 
 use Core\Exception\VistaNonTrovata;
 use Core\GruGru;
 use Core\Http\enum\HttpstatusCode;
+use Core\Middlewear\Middlewear;
 
 
 class Controller
 {
     private string $estensione = '.php';
+    /** @var Middlewear[] */
+    public array $middlewear = [];
+    public string $azione = '';
     public function view($views, $data = [])
     {
         $views = $this->generaPercorsoVista($views);
@@ -73,6 +78,11 @@ class Controller
         }
 
         return implode(DIRECTORY_SEPARATOR, $percorso);
+    }
+
+    public function registraMiddlewear(Middlewear $middlewear)
+    {
+        $this->middlewear[] = $middlewear;
     }
 
 }
