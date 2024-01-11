@@ -1,6 +1,6 @@
 <?php
 namespace Core\Exception;
-class NotTrovato extends \Exception
+class NonAutorizzato extends \Exception
 {
     protected $message = 'Non sei autorizzato a visualizzare questa pagina';
     protected $code = 403;
