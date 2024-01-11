@@ -13,7 +13,7 @@ class Controller
 {
     private string $estensione = '.php';
     /** @var Middlewear[] */
-    public array $middlewear = [];
+    protected array $middlewear = [];
     public string $azione = '';
     public function view($views, $data = [])
     {
@@ -83,6 +83,11 @@ class Controller
     public function registraMiddlewear(Middlewear $middlewear)
     {
         $this->middlewear[] = $middlewear;
+    }
+
+    public function listaMiddleware(): array
+    {
+        return $this->middlewear;
     }
 
 }
