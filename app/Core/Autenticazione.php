@@ -5,16 +5,31 @@ use Core\Model\Model;
 
 class Autenticazione
 {
-    private Session $session;
-    public function __construct()
+    private string $id;
+    private string $email;
+    public function __construct(private Session $session, private Model $model)
+    {}
+    public function autentica(string $email, string $password): bool
     {
-        $this->session = new Session();
-    }
-    public function autentica(Model $model)
-    {
-        $tabella = $model->getTabella();
+        $tabella = $this->model->getTabella();
         $sql = "SELECT id, email, password FROM {$tabella} WHERE email = :email";
-        $model->db->query($sql);
+
+        $this->model->db->query($sql);
+        $this->model->db->bind(':email', $email);
+
+        $utente = $this->model->db->singleRow();
+
+        if(password_verify($password, $utente->password))
+        {
+            $this->id = $utente->id;
+            $this->email = $utente->email;
+
+            $this->accedi();
+
+            return true;
+        }
+
+        return false;
 
     }
     public function esci()
@@ -22,9 +37,12 @@ class Autenticazione
         $this->session->eliminaChiave('autenticazione');
     }
 
-    public function accedi()
+    private function accedi()
     {
-        $this->session->aggiungiChiaveValore('autenticazione', 'true');    
+        $this->session->aggiungiChiaveValore('autenticazione', [
+            'id' => $this->id,
+            'email' => $this->email
+        ]);    
     }
 
 }

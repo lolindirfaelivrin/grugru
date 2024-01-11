@@ -19,6 +19,7 @@ class GruGru
     public static GruGru $APP;
     public static $ROOTDIR;
     public static string $VERSIONE = '0.3.2';
+    #public static array $ROTTE_REGISTRATE = []; 
 
     private array $config;
 
@@ -30,6 +31,7 @@ class GruGru
     public Controller $controller;
     public Config $configurazione;
     public Vista $vista;
+    public RouterGestore $rotte;
 
     public function __construct(string $rootdir, array $config)
     {
@@ -40,12 +42,15 @@ class GruGru
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
+        #$this->rotte = new RouterGestore();
         $this->controller = new Controller();
         $this->session = new Session();
         $this->config = $config;
         $this->configurazione = new Config($config);
         $this->vista = new Vista();
         $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
+
+        #self::$ROTTE_REGISTRATE = $this->rotte->rotteRegistrate();
 
 
     }

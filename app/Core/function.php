@@ -163,3 +163,9 @@ if (! function_exists('memoriaInFormatoUmano'))
         return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
     }
 }
+
+    function nl2p($string)
+    {
+        #return $string_with_paragraphs = "<p>".implode("</p><p>", explode("\n", $string))."</p>";
+        return "<p>".implode("</p><p>", explode("\n", $string))."</p>";
+    }

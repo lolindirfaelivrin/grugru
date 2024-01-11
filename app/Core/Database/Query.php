@@ -7,6 +7,7 @@ class Query
     protected string $table;
     protected string $campi = '*';
     protected array $where = [];
+    protected string $limita;
     protected string $ordine = '';
     public function table(string $table)
     {
@@ -19,6 +20,7 @@ class Query
         if(is_array($campi))
         {
             $this->campi = implode(',', $campi);
+            return $this;
         }
         
         $this->campi = $campi;
@@ -53,6 +55,12 @@ class Query
         return $this;
     } 
 
+    public function limita(int $limite, int $offset = 10)
+    {
+        $this->limita = "LIMIT {$limite}";
+        return $this;
+    }
+
     public function select()
     {
         $sql = "SELECT {$this->campi} FROM {$this->table}";
@@ -67,7 +75,7 @@ class Query
                 }
                 $sql .= $dove['colonna']. ' '
                 . $dove['operatore']
-                . ' ?';
+                . " :{$dove['valore']}";
             }
         }
 
@@ -75,22 +83,41 @@ class Query
         {
             $sql .= " {$this->ordine}";
         } 
+        if(!empty($this->limita))
+        {
+            $sql .= " {$this->limita}";
+        } 
+
         return $sql;
     }
 
     public function insert()
     {
-        return trim("INSERT INTO {$this->table} ({$this->campi}) VALUES (:".implode(' :',explode(',', $this->campi)).")");
+        $valori = ':' . implode(',:', explode(',', $this->campi));
+   
+        return trim("INSERT INTO {$this->table} ({$this->campi}) VALUES ({$valori})");
     }
 
-    public function update()
+    public function update(string $chiave):string
     {
-        return trim("UPDATE {$this->table} SET ");
+        $campi = explode(',', $this->campi);
+        $sql = "UPDATE {$this->table} SET ";
+
+        foreach($campi as $campo)
+        {
+            $sql .= " {$campo} = :{$campo}, ";
+        }
+
+        $sql = rtrim($sql, ', ');
+
+        $sql .= " WHERE $chiave = :{$chiave}";
+
+        return $sql;
 
     }
 
-    public function delete(string|int $chiave, string $pk)
+    public function delete(string|int $chiave)
     {
-        return trim("DELETE FROM {$this->table} WHERE {$pk} = :$chiave");
+        return trim("DELETE FROM {$this->table} WHERE {$chiave} = :{$chiave}");
     }
 }
