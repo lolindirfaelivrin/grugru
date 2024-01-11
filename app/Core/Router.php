@@ -109,7 +109,7 @@ class Router
             $middlewares = $controller->listaMiddleware();
             foreach($middlewares as $middleware)
             {
-                $middleware->execute();
+                $middleware->esegui();
             }
             $callback[0] = $controller;
         }
