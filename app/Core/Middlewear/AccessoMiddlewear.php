@@ -1,5 +1,7 @@
 <?php
 namespace Core\Middlewear;
+use Core\Exception\NonAutorizzato;
+use Core\Exception\NotTrovato;
 use Core\GruGru;
 class AccessoMiddlewear extends Middlewear
 {
@@ -13,7 +15,7 @@ class AccessoMiddlewear extends Middlewear
     {
         if(empty($this->azioni) || in_array(GruGru::$APP->controller->azione, $this->azioni))
         {
-            dump('Accesso');
+            throw new NonAutorizzato();
         }
 
     }
