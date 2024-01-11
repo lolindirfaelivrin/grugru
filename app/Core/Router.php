@@ -105,7 +105,7 @@ class Router
         {
             $controller = new $callback[0];
             $controller->azione = $callback[1];
-            #GruGru::$APP->controller = $controller;
+            GruGru::$APP->controller = $controller;
             $middlewares = $controller->listaMiddleware();
             foreach($middlewares as $middleware)
             {
