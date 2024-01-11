@@ -2,7 +2,7 @@
 
 namespace Core\Middlewear;
 
-class LoggingMiddlewear
+class LoggingMiddlewear extends Middlewear
 {
     public array $azioni = [];
 
