@@ -48,7 +48,7 @@ class Session
         }       
     }
 
-    public function prendiValoreChiave(string $chiave, $default = null)
+    public function prendiValoreChiave(string $chiave, $default = null): string|array
     {
         return $_SESSION[$chiave] ?? $default;
     }

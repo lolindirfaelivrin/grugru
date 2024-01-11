@@ -1,7 +1,9 @@
 <?php
 namespace Core\Middlewear;
+
 use Core\Exception\NonAutorizzato;
 use Core\GruGru;
+
 class AccessoMiddlewear extends Middlewear
 {
     public array $azioni = [];
@@ -12,11 +14,16 @@ class AccessoMiddlewear extends Middlewear
     }
     public function esegui()
     {
-        if(empty($this->azioni) || in_array(GruGru::$APP->controller->azione, $this->azioni))
-        {
-            throw new NonAutorizzato();
-        }
+        $autenticato = GruGru::$APP->session->prendiValoreChiave('autenticazione', false) ?
+            GruGru::$APP->session->prendiValoreChiave('autenticazione', false)['autenticato']: 
+            false;
 
+        if (!$autenticato) {
+
+            if (empty($this->azioni) || in_array(GruGru::$APP->controller->azione, $this->azioni)) {
+                throw new NonAutorizzato();
+            }
+        }
     }
 
 }
