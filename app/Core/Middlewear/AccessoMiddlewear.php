@@ -1,7 +1,6 @@
 <?php
 namespace Core\Middlewear;
 use Core\Exception\NonAutorizzato;
-use Core\Exception\NotTrovato;
 use Core\GruGru;
 class AccessoMiddlewear extends Middlewear
 {
