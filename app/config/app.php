@@ -9,5 +9,7 @@ return [
     'url'=> $_ENV['APP_URL'],
 
     'timezone' => 'UTC',
-    'charset' => 'UTF-8'
+    'charset' => 'UTF-8',
+
+    'estensione_layout' => '.php'
 ];
