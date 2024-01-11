@@ -92,13 +92,26 @@ class Router
 
         if(is_string($callback))
         {
+            #router->get('vista')
             return $this->renderView($callback);
         }
 
+        // if(is_array($callback) && count($callback) === 1)
+        // {
+        //     return new $callback[0]();
+        // }
+
         if(is_array($callback))
         {
-            $callback[0] = new $callback[0]();
-            $callback[0]->azione = $callback[1]; #Imposta azione del controller
+            $controller = new $callback[0];
+            $controller->azione = $callback[1];
+            #GruGru::$APP->controller = $controller;
+            $middlewares = $controller->listaMiddleware();
+            foreach($middlewares as $middleware)
+            {
+                $middleware->execute();
+            }
+            $callback[0] = $controller;
         }
 
         return  call_user_func($callback, $this->request, $this->response);
