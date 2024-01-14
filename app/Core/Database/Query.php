@@ -9,13 +9,14 @@ class Query
     protected array $where = [];
     protected string $limita;
     protected string $ordine = '';
-    public function table(string $table)
+    protected string $sql = '';
+    public function table(string $table): Query
     {
         $this->table = $table;
         return $this;
     }
 
-    public function campi(string|array $campi = '*')
+    public function campi(string|array $campi = '*'): Query
     {
         if(is_array($campi))
         {
@@ -49,21 +50,46 @@ class Query
         return $this;        
     }
 
-    public function ordine(string $campo, string $direzione = 'ASC')
+    public function ordine(string $campo, string $direzione = 'ASC'): Query
     {
         $this->ordine = "ORDER BY {$campo} {$direzione}";
         return $this;
     } 
 
-    public function limita(int $limite, int $offset = 10)
+    public function andOrdine(array|string $ordine):Query
     {
-        $this->limita = "LIMIT {$limite}";
+        if(is_string($ordine))
+        {
+            $this->ordine = "ORDER BY {$ordine}";
+            return $this;
+        }
+
+        $sql = 'ORDER BY';
+        foreach($ordine as $ordina => $ordinamento)
+        {
+            $sql .= " {$ordina} {$ordinamento},";
+        }
+
+        $this->ordine = rtrim($sql, ',');
         return $this;
     }
 
-    public function select()
+    public function limita(int $limite, ?int $offset = null): Query
+    {
+        $this->limita = "LIMIT {$limite}";
+
+        if(!is_null($offset))
+        {
+            $this->limita = "LIMIT {$limite} OFFSET {$offset}";
+        }
+
+        return $this;
+    }
+
+    public function select(): string
     {
         $sql = "SELECT {$this->campi} FROM {$this->table}";
+
         if(!empty($this->where))
         {
             $sql .= ' WHERE ';
@@ -83,11 +109,14 @@ class Query
         {
             $sql .= " {$this->ordine}";
         } 
+
         if(!empty($this->limita))
         {
             $sql .= " {$this->limita}";
         } 
 
+        $this->sql = $sql; 
+        $this->svuotaQuery();
         return $sql;
     }
 
@@ -119,5 +148,27 @@ class Query
     public function delete(string|int $chiave)
     {
         return trim("DELETE FROM {$this->table} WHERE {$chiave} = :{$chiave}");
+    }
+
+    private function svuotaQuery(): void
+    {
+        $elementi = ['table', 'campi', 'where', 'limita', 'ordine'];
+
+        foreach($elementi as $elemento)
+        {
+            if(is_string($this->{$elemento}))
+            {
+                $this->{$elemento} = '';
+            }
+            if(is_array($this->{$elemento}))
+            {
+                $this->{$elemento} = [];
+            }
+        }
+    }
+
+    public function __toString():string
+    {
+        return $this->sql;
     }
 }
