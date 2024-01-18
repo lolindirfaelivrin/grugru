@@ -13,5 +13,8 @@ interface DatabaseInterface
     public function rowCount();
     public function mostraErrore();
     public function lastId();
+    public function iniziaTransizione();
+    public function fineTransizione();
+    public function cancellaTransizione();
 
 }

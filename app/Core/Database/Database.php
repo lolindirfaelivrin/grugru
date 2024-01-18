@@ -45,4 +45,21 @@ class Database
     {
         return $this->db->rowCount();
     }
+
+    public function iniziaTransazione()
+    {
+       return $this->db->iniziaTransizione();
+    }
+
+    public function fineTransizione()
+    {
+        return $this->fineTransizione();
+    }
+
+    public function cancellaTransizione()
+    {
+        return $this->cancellaTransizione();
+    }
+
+
 }
