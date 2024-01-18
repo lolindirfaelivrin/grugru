@@ -61,5 +61,10 @@ class Database
         return $this->cancellaTransizione();
     }
 
+    public function info()
+    {
+        return $this->db->info();
+    }
+
 
 }

@@ -10,7 +10,7 @@ class DatabaseSqlite implements DatabaseInterface
 {
     protected $pdo;
     protected $statement;
-    public function __construct($configurazione)
+    public function __construct(protected array $configurazione)
     {
         try {
             $this->pdo = $this->connetti($configurazione);
@@ -87,7 +87,51 @@ class DatabaseSqlite implements DatabaseInterface
     }
     public function lastId()
     {
-        return $this->statement->rowCount();
+        return $this->pdo->lastInsertId();
+    }
+
+    public function iniziaTransizione()
+    {
+        return $this->pdo->beginTransaction();
+    }
+
+    public function fineTransizione()
+    {
+        return $this->pdo->commit();
+    }
+
+    public function cancellaTransizione()
+    {
+        return $this->pdo->rollBack();
+    }
+
+    public function info():array
+    {
+        $output = [
+            'server' => 'SERVER_INFO',
+            'driver' => 'DRIVER_NAME',
+            'client' => 'CLIENT_VERSION',
+            'version' => 'SERVER_VERSION',
+            'connection' => 'CONNECTION_STATUS'
+        ];
+
+        foreach ($output as $key => $value)
+        {
+            try
+            {
+                $output[$key] = $this->pdo->getAttribute(constant('PDO::ATTR_' . $value));
+            } 
+            catch (PDOException $e) 
+            {
+                $output[$key] = $e->getMessage();
+            }
+        }
+
+
+
+        $output['dsn'] = $this->configurazione['database'];
+
+        return $output;
     }
 
 }

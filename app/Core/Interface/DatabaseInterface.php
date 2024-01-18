@@ -16,5 +16,6 @@ interface DatabaseInterface
     public function iniziaTransizione();
     public function fineTransizione();
     public function cancellaTransizione();
+    public function info();
 
 }
