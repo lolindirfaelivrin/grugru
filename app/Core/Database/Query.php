@@ -124,7 +124,11 @@ class Query
     {
         $valori = ':' . implode(',:', explode(',', $this->campi));
    
-        return trim("INSERT INTO {$this->table} ({$this->campi}) VALUES ({$valori})");
+        $sql =  trim("INSERT INTO {$this->table} ({$this->campi}) VALUES ({$valori})");
+
+        $this->sql = $sql;
+        $this->svuotaQuery();
+        return $sql;
     }
 
     public function update(string $chiave):string
@@ -141,13 +145,19 @@ class Query
 
         $sql .= " WHERE $chiave = :{$chiave}";
 
+        $this->sql = $sql;
+        $this->svuotaQuery();
         return $sql;
 
     }
 
     public function delete(string|int $chiave)
     {
-        return trim("DELETE FROM {$this->table} WHERE {$chiave} = :{$chiave}");
+        $sql =  trim("DELETE FROM {$this->table} WHERE {$chiave} = :{$chiave}");
+
+        $this->sql = $sql;
+        $this->svuotaQuery();
+        return $sql;
     }
 
     private function svuotaQuery(): void
@@ -169,6 +179,6 @@ class Query
 
     public function __toString():string
     {
-        return $this->sql;
+        return 'QUERY => '.$this->sql;
     }
 }
