@@ -16,7 +16,8 @@ return [
             'driver' => 'sqlite',
             'url' => env('DB_URL', 'database'),
             'database' => env('DB_DATABASE', 'grugru.sqlite'),
-            'prefix' => env('DB_PREFIX', 'grugru_')
+            'prefix' => env('DB_PREFIX', 'grugru_'),
+            'transaction' => true
         ],
 
         'mysql' => [
