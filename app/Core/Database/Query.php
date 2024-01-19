@@ -7,7 +7,7 @@ class Query
     protected string $table;
     protected string $campi = '*';
     protected array $where = [];
-    protected string $limita;
+    protected string $limita = '';
     protected string $ordine = '';
     protected string $sql = '';
     public function table(string $table): Query
