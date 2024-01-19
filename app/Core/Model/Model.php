@@ -161,10 +161,10 @@ abstract class Model
 
     public function trovaPerChiavePrimaria(int $id, string $campi = '*')
     {
-        $sql = $this->query->table($this->tabella)->campi($campi)->where($this->chiavePrimaria, '=', 'valore')->select();
+        $sql = $this->query->table($this->tabella)->campi($campi)->where($this->chiavePrimaria, '=', 'id')->select();
 
         $this->db->query($sql); 
-        $this->db->bind(':valore', $id);
+        $this->db->bind(':id', $id);
         return $this->db->singleRow();
 
     }
