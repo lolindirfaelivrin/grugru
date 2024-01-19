@@ -53,12 +53,12 @@ class Database
 
     public function fineTransizione()
     {
-        return $this->fineTransizione();
+        return $this->db->fineTransizione();
     }
 
     public function cancellaTransizione()
     {
-        return $this->cancellaTransizione();
+        return $this->db->cancellaTransizione();
     }
 
     public function info()
