@@ -8,12 +8,17 @@ use PDOException;
 
 class DatabaseSqlite implements DatabaseInterface
 {
-    protected $pdo;
+    protected ?PDO $pdo = null;
     protected $statement;
     public function __construct(protected array $configurazione)
-    {
+    { 
         try {
             $this->pdo = $this->connetti($configurazione);
+            
+            if ($configurazione['transaction'])
+            { 
+                $this->abilitaTransazione();
+            }
         } catch (PDOException $e) {
             dd($e->getMessage());
         }
@@ -25,6 +30,10 @@ class DatabaseSqlite implements DatabaseInterface
             $this->pdo = new PDO("sqlite:" . GruGru::$ROOTDIR.'/database/'.$configurazione['database']);
         }
         return $this->pdo;
+    }
+    private function abilitaTransazione():void
+    {
+        $this->pdo->exec('PRAGMA foreign_keys = ON;');
     }
     public function query($sql)
     {
@@ -130,6 +139,7 @@ class DatabaseSqlite implements DatabaseInterface
 
 
         $output['dsn'] = $this->configurazione['database'];
+        $output['transaction attive'] = (bool) $this->pdo->query('PRAGMA foreign_keys;')->fetchColumn(0);
 
         return $output;
     }
