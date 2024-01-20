@@ -83,4 +83,26 @@ class Request
         return array_keys($this->routeParams);
     }
 
+    public function files(array|string $nomefile = null)
+    {
+        if($nomefile == null)
+        {
+            return $_FILES;
+        }
+
+        if(is_string($nomefile))
+        {
+            return $_FILES[$nomefile] ?? null;
+        }
+
+        $files = [];
+        foreach($nomefile as $file)
+        {
+            $files[$file] = $_FILES[$file] ?? null; 
+
+        }
+
+        return $files;
+    }
+
 }
