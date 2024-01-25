@@ -16,9 +16,11 @@ if (!function_exists('dd'))
         $traccia = debug_backtrace();
         $file = $traccia[0]['file'];
         $linea = $traccia[0]['line'];
+        date_default_timezone_set('Europe/Rome');
+        $oraAttuale = date('H:i:s');
 
         echo "<div style='font-family: monospace'>";
-        echo "// $file:$linea\n";
+        echo "// $file:$linea [{$oraAttuale}]\n";
         echo '<pre>';
         var_dump(...$dati);
         echo '</pre></div>';
@@ -39,8 +41,10 @@ if (!function_exists('dump'))
         $traccia = debug_backtrace();
         $file = $traccia[0]['file'];
         $linea = $traccia[0]['line'];
+        date_default_timezone_set('Europe/Rome');
+        $oraAttuale = date('H:i:s');
 
-        echo "// $file:$linea\n";
+        echo "// $file:$linea [{$oraAttuale}]\n";
         echo '<pre>';
         var_dump(...$dati);
         echo '</pre>';
