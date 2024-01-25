@@ -57,6 +57,23 @@ class Request
         return $data;
     }
 
+    /**
+     * Restituisce il valore di uno specifico campo di input di una richiesta POST
+     *
+     * @param string $input
+     * @param string|null $predefinito
+     * @return string|null
+     */
+    public function input(string $input, ?string $predefinito = null):?string
+    {
+        if(isset($_POST[$input]))
+        {
+            return filter_input(INPUT_POST, $_POST[$input], FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+
+        return $predefinito;
+    }
+
     public function solamente(string|array $parametri)
     {
         $data = [];
