@@ -200,6 +200,20 @@ abstract class Model
         return $trova;
     }
 
+    public function cercaTesto(string $cerca, string $campo)
+    {
+        $dacercare = "%{$cerca}%";
+        $sql = "SELECT * FROM $this->tabella WHERE {$campo} LIKE :cerca";
+
+        $this->db->query($sql);
+        $this->db->bind(':cerca', $dacercare);
+        $this->db->executeQuery();
+
+        $dati = $this->db->resultSet();
+
+        return $dati ? $dati : null;
+    }
+
     public function salva()
     {
         $sql = $this->query->table($this->tabella)->campi($this->campi())->insert();
