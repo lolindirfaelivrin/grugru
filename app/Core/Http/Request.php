@@ -57,6 +57,28 @@ class Request
         return $data;
     }
 
+    public function solamente(string|array $parametri)
+    {
+        $data = [];
+
+        if(is_string($parametri))
+        {
+            $parametri = explode(',', $parametri);
+        }
+
+        if($this->isPost())
+        {
+            foreach($_POST as $chiave => $valore)
+            {
+                if(in_array($valore, $parametri))
+                {
+                    $data[$chiave] = $valore;
+                }
+            }
+        }
+        return $data;
+    }
+
     public function typeIs(string $tipo_di_richiesta): bool
     {
         return $this->getRequestMethod() === strtolower($tipo_di_richiesta);
