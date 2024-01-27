@@ -1,4 +1,5 @@
 <?php
+use Core\GruGru;
 use Core\Http\Redirect;
 use Core\Http\Response;
 
@@ -148,6 +149,27 @@ if (! function_exists('windows_os')) {
     function windows_os()
     {
         return PHP_OS_FAMILY === 'Windows';
+    }
+}
+
+if (! function_exists('session')) {
+    /**
+     * Restituisce una variabile di sessione
+     *
+     * @param string|null $chiave
+     * @param string|null $predefinito
+     * @return string|null 
+     */
+    function session(?string $chiave = null, ?string $predefinito = null): ?string
+    {
+        if(is_null($chiave))
+        {
+            /** @var GruGru Grugru */
+            return GruGru::$APP->session->__toString();
+        }
+
+        return GruGru::$APP->session->prendiValoreChiave($chiave, $predefinito);
+
     }
 }
 
