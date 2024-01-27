@@ -39,6 +39,7 @@ class Autenticazione
     public function esci()
     {
         $this->session->eliminaChiave('autenticazione');
+        session_destroy();
     }
 
     private function accedi()
@@ -52,7 +53,7 @@ class Autenticazione
 
     public function autenticato():bool
     {
-        return $this->session->prendiValoreChiave('autenticazione')['autenticato'];
+        return $this->session->prendiValoreChiave('autenticazione')['autenticato'] ?? false;
     }
 
     public function utentId(): string
