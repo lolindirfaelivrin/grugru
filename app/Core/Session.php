@@ -48,7 +48,11 @@ class Session
         }       
     }
 
-    public function prendiValoreChiave(string $chiave, $default = null): string|array
+    // ? Modificato valore defaul da null a [] questo perchè ho tipizzato il tipo di ritorno.
+    // ! Questa modifica può causare errori in diversi contesti.
+    // ! Aggiunto tipo null di ritorno per via di come ho scritto la funzione session()
+    // TODO: Valutare riscrittura di questo metodo
+    public function prendiValoreChiave(string $chiave, $default = []): string|array|null
     {
         return $_SESSION[$chiave] ?? $default;
     }
