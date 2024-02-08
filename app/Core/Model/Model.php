@@ -265,4 +265,19 @@ abstract class Model
         
         return $this->db->executeQuery();
     }
+
+    /**
+     * Conta le righe di una tabella
+     *
+     * @return int
+     */
+    public function conta():int
+    {
+        $sql = "SELECT COUNT(*) AS totale FROM {$this->tabella}";
+
+        $this->db->query($sql);
+        $totale = $this->db->singleRow();
+
+        return (int) $totale->totale;
+    }
 }
