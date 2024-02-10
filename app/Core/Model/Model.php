@@ -19,6 +19,7 @@ abstract class Model
     const REGOLA_MIN = 'min';
     const REGOLA_NUMERO = 'numeric';
     const REGOLA_EMAIL = 'email';
+    const REGOLA_URL = 'url';
     const REGOLA_REGEXP = 'regexp';
     private array $errori = [];
     protected string $tabella = '';
@@ -63,6 +64,11 @@ abstract class Model
                 #Valido campo email
                 if ($nomeRegola === self::REGOLA_EMAIL && !filter_var($valoreCampo, FILTER_VALIDATE_EMAIL)) {
                     $this->addErrorByRule($campo, self::REGOLA_EMAIL);
+                }
+
+                #Valido campo URL
+                if ($nomeRegola === self::REGOLA_URL && !filter_var($valoreCampo, FILTER_VALIDATE_URL)) {
+                    $this->addErrorByRule($campo, self::REGOLA_URL);
                 }
 
                 #Valido campo Numerico
