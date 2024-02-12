@@ -96,10 +96,11 @@ class Router
             return $this->renderView($callback);
         }
 
-        // if(is_array($callback) && count($callback) === 1)
-        // {
-        //     return new $callback[0]();
-        // }
+        if(is_array($callback) && count($callback) === 1)
+        {
+            $callback = new $callback[0];
+            return call_user_func($callback, $this->request, $this->response);
+        }
 
         if(is_array($callback))
         {
