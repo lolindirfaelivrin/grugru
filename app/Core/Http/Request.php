@@ -96,6 +96,50 @@ class Request
         return $data;
     }
 
+    /**
+     * Determina se un valore è presente nella richiesta e non è una stringa vuota.
+     *
+     * @param string $campo La chiave del valore da controllare nella richiesta.
+     * @return boolean se il valore è presente e non è una stringa vuota, altrimenti false.
+     */
+    public function compilato(string $campo):bool
+    {
+        return (isset($_POST[$campo]) && !vuoto($_POST[$campo]));
+    }
+
+    /**
+     * Determina se un valore è presente nella richiesta.
+     * 
+     * Questo metodo restituisce true se il valore è presente nella richiesta.
+     * Quando viene fornito un array, il metodo determina se tutti i valori specificati sono presenti.
+     *
+     * @param string|array $campo La chiave o l'array di chiavi da controllare nella richiesta.
+     * @return boolean True se il valore o tutti i valori specificati sono presenti, altrimenti false.
+     */
+    public function presente(string|array $campo):bool
+    {
+        if(is_string($campo))
+        {
+            return isset($_POST[$campo]);
+        }
+
+        if(is_array($campo))
+        {
+            $presente = true;
+            foreach($campo as $elemento)
+            {
+                if(!isset($_POST[$elemento]))
+                {
+                    $presente = false;
+                }
+            }
+
+            return $presente; 
+        }
+
+        return false;
+    }
+
     public function typeIs(string $tipo_di_richiesta): bool
     {
         return $this->getRequestMethod() === strtolower($tipo_di_richiesta);
