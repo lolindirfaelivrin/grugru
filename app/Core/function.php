@@ -190,8 +190,39 @@ if (! function_exists('memoriaInFormatoUmano'))
     }
 }
 
+if(! function_exists('nl2p'))
+{
     function nl2p($string)
     {
         #return $string_with_paragraphs = "<p>".implode("</p><p>", explode("\n", $string))."</p>";
-        return "<p>".implode("</p><p>", explode("\n", $string))."</p>";
+        return "<p>" . implode("</p><p>", explode("\n", $string)) . "</p>";
     }
+}
+
+if(! function_exists('router'))
+{
+    function router()
+    {
+        return GruGru::$APP->router;
+    }
+}
+
+function valore($valore, ...$argomenti)
+{
+    return $valore instanceof Closure ? $valore(...$argomenti) : $valore;
+
+}
+
+if(! function_exists('quando'))
+{
+    function quando($condizione, $valore, $predefinito = null)
+    {
+        if($condizione)
+        {
+            return valore($valore, ...$condizione);
+        }
+
+        return valore($predefinito, ...$condizione);
+    }
+
+}
