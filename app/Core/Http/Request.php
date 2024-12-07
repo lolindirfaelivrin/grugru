@@ -188,4 +188,15 @@ class Request
         return $files;
     }
 
+    public function getHeader(string $header): ?string
+    {
+        $header = strtolower($header);
+        return $this->headers[$header] ?? null;
+    }
+
+    public function isAjax()
+    {
+        return $this->getHeader('X-Requested-With') === 'XMLHttpRequest';
+    }
+
 }
