@@ -75,11 +75,14 @@ class DatabaseSqlite implements DatabaseInterface
     }
     public function resultSetArray()
     {
+        $this->executeQuery();
+        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
 
     }
     public function resultSetColumn()
     {
-
+        $this->executeQuery();
+        return $this->statement->fetchAll(PDO::FETCH_COLUMN);
     }
     public function singleRow()
     {
@@ -92,7 +95,7 @@ class DatabaseSqlite implements DatabaseInterface
     }
     public function mostraErrore()
     {
-
+        return $this->statement->errorInfo();
     }
     public function lastId()
     {
