@@ -7,6 +7,7 @@ return [
     'log' => env('APP_LOG', false),
     'chiave' => $_ENV['APP_CHIAVE'],
     'url'=> $_ENV['APP_URL'],
+    'disco' => $_ENV['DISCO'],
 
     'timezone' => 'UTC',
     'charset' => 'UTF-8',
