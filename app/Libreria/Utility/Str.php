@@ -21,4 +21,9 @@ class Str
 
         return call_user_func_array(self::$metodi[$metodo], $parametri);   
     }
+
+    public static function fine($stringa, $valore)
+    {
+        return $valore;
+    }
 }
