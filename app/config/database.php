@@ -3,7 +3,7 @@
 return [
 
     /**
-     * Stabilisce che tipo di database andrò a usere se nessun dataabase è indicato
+     * Stabilisce che tipo di database andrò a usere se nessun database è indicato
      */
     'default' => env('DB_DRIVER', 'sqlite'),
 
