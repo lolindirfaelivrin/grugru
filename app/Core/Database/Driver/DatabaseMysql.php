@@ -17,25 +17,27 @@ class DatabaseMysql implements DatabaseInterface
   private $dbHandler;
   private $dberror;
 
-  public function __construct($configurazione)
+  protected ?PDO $pdo = null;
+
+  public function __construct(protected array $configurazione)
   {
     $this->dbHost = $configurazione['host'];
     $this->dbUser = $configurazione['user'];
     $this->dbPass = $configurazione['password'];
     $this->dbName = $configurazione['database'];
 
-    $conn = 'mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName;
+    $conn = "mysql:host={$this->dbHost};dbname={$this->dbName}";
 
     $this->dbHandler = $this->connetti($conn);
   }
 
-  public function connetti($configurazione)
+  public function connetti($configurazione):?PDO
   {
 
-    $options = array(
+    $options = [
       PDO::ATTR_PERSISTENT => true,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    );
+    ];
 
     try {
       return new PDO($configurazione, $this->dbUser, $this->dbPass, $options);
@@ -132,6 +134,32 @@ class DatabaseMysql implements DatabaseInterface
   public function cancellaTransizione()
   {
     return $this->dbHandler->rollBack();
+  }
+
+  public function info(): array
+  {
+    $output = [
+      'server' => 'SERVER_INFO',
+      'driver' => 'DRIVER_NAME',
+      'client' => 'CLIENT_VERSION',
+      'version' => 'SERVER_VERSION',
+      'connection' => 'CONNECTION_STATUS'
+    ];
+
+    foreach ($output as $key => $value) {
+      try {
+        $output[$key] = $this->pdo->getAttribute(constant('PDO::ATTR_' . $value));
+      } catch (PDOException $e) {
+        $output[$key] = $e->getMessage();
+      }
+    }
+
+
+
+    $output['dsn'] = $this->configurazione['database'];
+    $output['transaction attive'] = (bool) $this->pdo->query('PRAGMA foreign_keys;')->fetchColumn(0);
+
+    return $output;
   }
 
 }
