@@ -21,7 +21,7 @@ class GruGru
     public static GruGru $APP;
     public static $ROOTDIR;
     public static string $VERSIONE = '0.3.2';
-    #public static array $ROTTE_REGISTRATE = []; 
+    public static array $ROTTE_REGISTRATE = []; 
 
     private array $config;
 
@@ -44,7 +44,7 @@ class GruGru
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
-        #$this->rotte = new RouterGestore();
+        $this->rotte = new RouterGestore();
         $this->controller = new Controller();
         $this->session = new Session();
         $this->config = $config;
@@ -52,9 +52,13 @@ class GruGru
         $this->vista = new Vista();
         $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
 
-        #self::$ROTTE_REGISTRATE = $this->rotte->rotteRegistrate();
+        self::$ROTTE_REGISTRATE = $this->rotte->rotteRegistrate();
 
+    }
 
+    public function registraFileRotta(string|array $rotta = 'web'):void 
+    {
+        $this->rotte->registraRotta($rotta);
     }
 
     public function configurazione()
@@ -62,6 +66,12 @@ class GruGru
         echo '<pre>';
         var_dump($this->config);
         echo '</pre>';
+        echo '<pre>';
+        var_dump($this->router->rotte());
+        echo '</pre>';
+        echo'<pre>';
+        var_dump($this->rotte->rotteRegistrate());
+        echo'</pre>';
     }
 
     private function ottieniTipoDatabase(string $driver)
