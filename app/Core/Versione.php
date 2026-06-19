@@ -4,7 +4,7 @@ namespace Core;
 
 final class Versione
 {
-    public const VERSION = '0.12.2';
+    public const VERSION = '0.12.3';
     public const MAJOR = 0;
     public const MINOR = 12;
     public const PATCH = 1;
