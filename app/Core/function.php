@@ -3,34 +3,78 @@ use Core\GruGru;
 use Core\Http\Redirect;
 use Core\Http\Response;
 
-if (!function_exists('dd'))
-{
+if (!function_exists('dd')) {
     /**
      * Fa il dump di variabile/i a schermo e interrompe l'esecuzione dello script
      *
-     * @param mixed $dati variabile/i da mostrare
+     * @param mixed $variables variabile/i da mostrare
      * @return mixed
      * @see https://youtu.be/EI0nTQle4vw?si=h0HpFLccv1su2P0E
      */
-    function dd(...$dati)
-    {
-        $traccia = debug_backtrace();
-        $file = $traccia[0]['file'];
-        $linea = $traccia[0]['line'];
-        date_default_timezone_set('Europe/Rome');
-        $oraAttuale = date('H:i:s');
+    function dd(...$variables)
+    {/**
+     * Esegue il dump delle variabili, mostra il punto di chiamata e interrompe lo script.
+     *
+     * @param mixed ...$variables
+     * @return void
+     */
+        function dd(...$variables)
+        {
+            // Verifica se stiamo eseguendo da riga di comando (CLI)
+            $isCli = in_array(php_sapi_name(), ['cli', 'phpdbg'], true);
 
-        echo "<div style='font-family: monospace'>";
-        echo "// $file:$linea [{$oraAttuale}]\n";
-        echo '<pre>';
-        var_dump(...$dati);
-        echo '</pre></div>';
-        exit;
+            // Cattura file e riga ottimizzando l'uso della memoria
+            $traccia = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+            $file = $traccia[0]['file'] ?? 'File sconosciuto';
+            $linea = $traccia[0]['line'] ?? '?';
+
+            // Ottiene l'ora di Roma senza alterare il fuso orario globale di PHP
+            $oraAttuale = (new DateTime('now', new DateTimeZone('Europe/Rome')))->format('H:i:s');
+
+            if ($isCli) {
+                // Intestazione per il terminale
+                echo "\n--- DUMP: $file:$linea [$oraAttuale] ---\n";
+            } else {
+                // Wrapper principale HTML (Dark Mode)
+                echo '<div style="background-color: #18171B; padding: 15px; margin: 10px 0; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 99999; position: relative; text-align: left; direction: ltr; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">';
+
+                // Intestazione con file, linea e ora (Stile commento in grigio)
+                echo "<div style='color: #6B7280; font-size: 12px; margin-bottom: 10px; border-bottom: 1px solid #374151; padding-bottom: 5px;'>";
+                echo "// $file:$linea [$oraAttuale]";
+                echo "</div>";
+            }
+
+            // Loop per processare tutti gli argomenti passati
+            foreach ($variables as $variable) {
+                if ($isCli) {
+                    var_dump($variable);
+                    echo PHP_EOL;
+                } else {
+                    // Corpo del dump per il web
+                    echo '<pre style="color: #A3BE8C; font-size: 14px; line-height: 1.5; margin: 0 0 10px 0; white-space: pre-wrap; word-wrap: break-word;">';
+
+                    ob_start();
+                    var_dump($variable);
+                    $output = ob_get_clean();
+
+                    // Protezione XSS
+                    echo htmlspecialchars($output, ENT_SUBSTITUTE, 'UTF-8');
+
+                    echo '</pre>';
+                }
+            }
+
+            if (!$isCli) {
+                echo '</div>'; // Chiude il wrapper principale
+            }
+
+            // Interrompe l'esecuzione dello script
+            die(1);
+        }
     }
 }
 
-if (!function_exists('dump'))
-{
+if (!function_exists('dump')) {
     /**
      * Fa il dump di variabile/i a schermo
      *
@@ -68,8 +112,7 @@ if (!function_exists('env')) {
     }
 }
 
-if( !function_exists('redirect'))
-{
+if (!function_exists('redirect')) {
     /**
      * Reindirizza ad una spacifica pagina
      *
@@ -82,18 +125,16 @@ if( !function_exists('redirect'))
     }
 }
 
-if( !function_exists('vuoto'))
-{
+if (!function_exists('vuoto')) {
     /**
      * Determina se una variabile è vuota
      * @param mixed $valore
      * @return bool
      */
 
-     function vuoto($valore)
-     {
-        if(is_null($valore))
-        {
+    function vuoto($valore)
+    {
+        if (is_null($valore)) {
             return true;
         }
 
@@ -103,15 +144,14 @@ if( !function_exists('vuoto'))
 
         if (is_numeric($valore) || is_bool($valore)) {
             return false;
-        }        
+        }
 
         return empty($valore);
 
-     }
+    }
 }
 
-if(! function_exists('pieno'))
-{
+if (!function_exists('pieno')) {
     /**
      * Determina se una variabile ha un valore
      *
@@ -124,8 +164,7 @@ if(! function_exists('pieno'))
     }
 }
 
-if( !function_exists('e'))
-{
+if (!function_exists('e')) {
     /**
      * Encode HTML special characters di una stringa
      *
@@ -140,7 +179,7 @@ if( !function_exists('e'))
 
 }
 
-if (! function_exists('windows_os')) {
+if (!function_exists('windows_os')) {
     /**
      * Deternina se il sistema attuale è un sistema della famiglia Windows.
      *
@@ -152,7 +191,7 @@ if (! function_exists('windows_os')) {
     }
 }
 
-if (! function_exists('session')) {
+if (!function_exists('session')) {
     /**
      * Restituisce una variabile di sessione
      *
@@ -162,8 +201,7 @@ if (! function_exists('session')) {
      */
     function session(?string $chiave = null, ?string $predefinito = null): ?string
     {
-        if(is_null($chiave))
-        {
+        if (is_null($chiave)) {
             /** @var GruGru Grugru */
             return GruGru::$APP->session->__toString();
         }
@@ -173,8 +211,7 @@ if (! function_exists('session')) {
     }
 }
 
-if (! function_exists('memoriaInFormatoUmano'))
-{
+if (!function_exists('memoriaInFormatoUmano')) {
     /**
      * Trasforma i bity in un formato leggibile
      * ! Da spostare in eventuale libreria dedicata
@@ -190,8 +227,7 @@ if (! function_exists('memoriaInFormatoUmano'))
     }
 }
 
-if(! function_exists('nl2p'))
-{
+if (!function_exists('nl2p')) {
     function nl2p($string)
     {
         #return $string_with_paragraphs = "<p>".implode("</p><p>", explode("\n", $string))."</p>";
@@ -199,8 +235,7 @@ if(! function_exists('nl2p'))
     }
 }
 
-if(! function_exists('router'))
-{
+if (!function_exists('router')) {
     function router()
     {
         return GruGru::$APP->router;
@@ -213,12 +248,10 @@ function valore($valore, ...$argomenti)
 
 }
 
-if(! function_exists('quando'))
-{
+if (!function_exists('quando')) {
     function quando($condizione, $valore, $predefinito = null)
     {
-        if($condizione)
-        {
+        if ($condizione) {
             return valore($valore, ...$condizione);
         }
 
