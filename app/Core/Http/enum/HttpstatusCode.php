@@ -11,4 +11,6 @@ enum HttpstatusCode: int
     case NonTrovato = 404;
     case ErroreInterno = 500;
 
+    case NessunContenuto = 204;
+
 }
