@@ -9,8 +9,10 @@ enum ChiaviRiservateSession: string
     case CsrfToken = 'GRUGRU__sess_csrf_token__';
     case Autenticato = 'GRUGRU__sess_autenticato__';
 
+    case ChiaveFlash = 'GRUGRU_fl_ash_chia_token__';
+
     public static function isRiservata(string $chiave): bool
     {
-        return in_array($chiave, array_column(self::cases(), 'value'), true);
+        return \in_array($chiave, array_column(self::cases(), 'value'), true);
     }
 }
