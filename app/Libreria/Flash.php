@@ -1,34 +1,48 @@
 <?php
+declare(strict_types=1);
 
 namespace Libreria;
 use Core\Session;
 
-class Flash extends Session
+class Flash
 {
     private string $chiave_flash;
 
-    public function __construct(string $chiave_flash = '__grugru_flash')
+    private array $messaggi_correnti = [];
+
+    public function __construct(private Session $session, string $chiave_flash = '__grugru_flash')
     {
-        parent::__construct();
         $this->chiave_flash = $chiave_flash;
+
+        $this->messaggi_correnti = $this->session->prendiValoreChiave($this->chiave_flash) ?? [];
+        $this->session->eliminaChiave($this->chiave_flash);
     }
 
     public function aggiungi(string $chiave, mixed $valore): void
     {
-        $flash = $this->prendiValoreChiave($this->chiave_flash) ?? [];
-        $flash[$chiave][] = $valore;
-        $this->aggiungiChiaveValore($this->chiave_flash, $flash);
+        $flash = $this->session->prendiValoreChiave($this->chiave_flash) ?? [];
+        $flash[$chiave][] = htmlspecialchars($valore);
+        $this->session->aggiungiChiaveValore($this->chiave_flash, $flash);
+        $this->messaggi_correnti[$chiave][] = $valore;
     }
 
-    public function mostra(string $chiave):array
+    public function mostra(string $chiave): array
     {
-        $flash = $this->prendiValoreChiave($this->chiave_flash) ?? [];
-        if (isset($flash[$chiave])) {
-            $messaggio = $flash[$chiave];
-            unset($flash[$chiave]);
-            $this->aggiungiChiaveValore($this->chiave_flash, $flash);
-            return $messaggio;
+
+        if (isset($this->messaggi_correnti[$chiave])) {
+            $messaggi = $this->messaggi_correnti[$chiave];
+            unset($this->messaggi_correnti[$chiave]);
+
+            return $messaggi;
         }
+
         return [];
+    }
+
+    public function mostraTutti(): array
+    {
+        $tutti = $this->messaggi_correnti;
+        $this->messaggi_correnti = []; // Svuota dopo la lettura
+        return $tutti;
     }
 }

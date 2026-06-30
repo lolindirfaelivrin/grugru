@@ -14,14 +14,16 @@ use Core\Http\Response;
 use Core\Database\Database;
 use Core\Controller\Controller;
 use Core\Interface\DatabaseInterface;
+use Core\Vista\Vista;
 
 
 class GruGru
 {
     public static GruGru $APP;
     public static $ROOTDIR;
+
     public static string $VERSIONE = '0.3.2';
-    public static array $ROTTE_REGISTRATE = []; 
+    public static array $ROTTE_REGISTRATE = [];
 
     private array $config;
 
@@ -39,7 +41,7 @@ class GruGru
     {
         self::$APP = $this;
         self::$ROOTDIR = dirname(__DIR__);
-        
+
         #Oppure posso instanziare direttamente qui le classi
         $this->request = new Request();
         $this->response = new Response();
@@ -56,7 +58,7 @@ class GruGru
 
     }
 
-    public function registraFileRotta(string|array $rotta = 'web'):void 
+    public function registraFileRotta(string|array $rotta = 'web'): void
     {
         $this->rotte->registraRotta($rotta);
     }
@@ -69,29 +71,28 @@ class GruGru
         echo '<pre>';
         var_dump($this->router->rotte());
         echo '</pre>';
-        echo'<pre>';
+        echo '<pre>';
         var_dump($this->rotte->rotteRegistrate());
-        echo'</pre>';
+        echo '</pre>';
     }
 
     private function ottieniTipoDatabase(string $driver)
     {
         //TODO: Guarda il codice generato da chatGpt.
         $driver;
-        switch ($driver)
-        {
+        switch ($driver) {
             case 'sqlite':
-            $driver =  new DatabaseSqlite($this->configurazione->ottieni('connection.sqlite'));
-            break;
+                $driver = new DatabaseSqlite($this->configurazione->ottieni('connection.sqlite'));
+                break;
 
             case 'mysql':
-            $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
-            break;
+                $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
+                break;
 
             default:
-            $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
-            break;
-        }    
+                $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
+                break;
+        }
 
         return $driver;
     }

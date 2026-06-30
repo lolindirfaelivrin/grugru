@@ -257,3 +257,19 @@ if (!function_exists('quando')) {
     }
 
 }
+
+if (!function_exists('ipAnonimo')) {
+    function ipAnonimo($ip)
+    {
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return preg_replace('/\.\d+$/', '.0', $ip);
+        }
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $parti = explode(':', $ip);
+            return implode(':', array_slice($parti, 0, 3)) . '::/48';
+        }
+
+        return 'sconosciuto';
+    }
+}

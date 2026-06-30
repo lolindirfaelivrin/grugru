@@ -9,3 +9,9 @@ public/
 app/database/
 app/rotte/
 app/storage
+releases/
+installa.php
+lista.sh
+manutenzione.sh
+rilascio.sh
+versione.sh
