@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'nome' => $_ENV['APP_NAME'],
-    'env' => $_ENV['APP_ENV'],
-    'debug' => $_ENV['APP_DEBUG'],
+    'nome' => env('APP_NAME', 'Grugru'),
+    'env' => env('APP_ENV', 'production'),
+    'debug' => env('APP_DEBUG', false),
     'log' => env('APP_LOG', false),
-    'chiave' => $_ENV['APP_CHIAVE'],
-    'url'=> $_ENV['APP_URL'],
-    'disco' => $_ENV['DISCO'],
+    'chiave' => env('APP_CHIAVE'),
+    'url' => env('APP_URL', 'http://localhost'),
+    'disco' => env('DISCO'),
 
     'timezone' => 'UTC',
     'charset' => 'UTF-8',

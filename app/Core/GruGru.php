@@ -97,4 +97,24 @@ class GruGru
         return $driver;
     }
 
+    public function creaConfigurazione(): array
+    {
+        $configurazione = [];
+        $configurazione_directory = self::$ROOTDIR . '/config';
+
+        $file_configurazione = glob(rtrim($configurazione_directory, '/') . '/*.php');
+
+        if ($file_configurazione === false) {
+            throw new \Exception("Errore nella lettura dei file di configurazione");
+        }
+
+        foreach ($file_configurazione as $file) {
+            $nome_file = basename($file, '.php');
+            $configurazione[$nome_file] = require $file;
+        }
+
+        return $configurazione;
+    }
+
+
 }
