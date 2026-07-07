@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * User: GruGru - Mostrillo <3
  * Date: 02/09/2023
@@ -42,7 +44,7 @@ class GruGru
     public function __construct(string $rootdir, array $config = [])
     {
         self::$APP = $this;
-        self::$ROOTDIR = dirname(__DIR__);
+        self::$ROOTDIR = $rootdir ?? dirname(__DIR__);
 
         #Oppure posso instanziare direttamente qui le classi
         $this->request = new Request();
@@ -51,10 +53,10 @@ class GruGru
         $this->rotte = new RouterGestore();
         $this->controller = new Controller();
         $this->session = new Session();
-        $this->config = $this->creaConfigurazione();
+        $this->config = $config ?? $this->creaConfigurazione();
         $this->configurazione = new Config($this->config);
         $this->vista = new Vista();
-        #$this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
+        $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
 
         self::$FILE_ROTTE_REGISTRATE = [];
 
@@ -113,19 +115,6 @@ class GruGru
     private function gestioneErrori(): void
     {
         set_error_handler(array("Core\Exception\GestisciErrori", "getStaticError"));
-    }
-
-    public function conf()
-    {
-        echo '<pre>';
-        var_dump($this->config);
-        echo '</pre>';
-        echo '<pre>';
-        var_dump($this->router->rotte());
-        echo '</pre>';
-        echo '<pre>';
-        var_dump($this->rotte->rotteRegistrate());
-        echo '</pre>';
     }
 
     private function ottieniTipoDatabase(string $driver)
