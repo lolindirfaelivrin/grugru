@@ -87,17 +87,29 @@ class GruGru
         return env('APP_ENV');
     }
 
-    public function gestioneErrori(): GruGru
+    public function gestisciErrori(): GruGru
     {
-        if ($this->configurazione->ottieni('app.debug')) {
+        if ($this->configurazione->ottieni('app.debug') && self::ambiente('local')) {
             ini_set('display_errors', '1');
             error_reporting(E_ALL);
+            $this->gestioneEccezioni();
+            $this->gestioneErrori();
         } else {
             ini_set('display_errors', '0');
             error_reporting(0);
         }
 
         return $this;
+    }
+
+    private function gestioneEccezioni(): void
+    {
+        set_exception_handler(array("Core\Exception\GestisciEccezioni", "getStaticException"));
+    }
+
+    private function gestioneErrori(): void
+    {
+        set_error_handler(array("Core\Exception\GestisciErrori", "getStaticError"));
     }
 
     public function configurazione()
