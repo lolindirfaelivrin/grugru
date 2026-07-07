@@ -25,7 +25,7 @@ class GruGru
     private const string VERSIONE_MINIMA_PHP = '8.3.0';
 
     public static string $VERSIONE = '0.3.2';
-    public static array $ROTTE_REGISTRATE = [];
+    public static array $FILE_ROTTE_REGISTRATE = [];
 
     private array $config;
 
@@ -39,7 +39,7 @@ class GruGru
     public Vista $vista;
     public RouterGestore $rotte;
 
-    public function __construct(string $rootdir, array $config)
+    public function __construct(string $rootdir, array $config = [])
     {
         self::$APP = $this;
         self::$ROOTDIR = dirname(__DIR__);
@@ -51,18 +51,21 @@ class GruGru
         $this->rotte = new RouterGestore();
         $this->controller = new Controller();
         $this->session = new Session();
-        $this->config = $config;
-        $this->configurazione = new Config($config);
+        $this->config = $this->creaConfigurazione();
+        $this->configurazione = new Config($this->config);
         $this->vista = new Vista();
-        $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
+        #$this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
 
-        self::$ROTTE_REGISTRATE = $this->rotte->rotteRegistrate();
+        self::$FILE_ROTTE_REGISTRATE = [];
 
     }
 
-    public function registraFileRotta(string|array $rotta = 'web'): void
+    public function registraFileRotta(string|array $rotta = 'web'): GruGru
     {
         $this->rotte->registraRotta($rotta);
+        self::$FILE_ROTTE_REGISTRATE = $this->rotte->rotteRegistrate();
+
+        return $this;
     }
 
     public function verificaVersioneMinimaPHP(): GruGru
@@ -77,19 +80,19 @@ class GruGru
     public static function ambiente(string|array|null $verifica_ambiente = null): string|bool
     {
         if (\is_string($verifica_ambiente)) {
-            return env('APP_ENV') === $verifica_ambiente;
+            return self::$APP->configurazione->ottieni('app.env') === $verifica_ambiente;
         }
 
         if (\is_array($verifica_ambiente)) {
-            return \in_array(env('APP_ENV'), $verifica_ambiente);
+            return \in_array(self::$APP->configurazione->ottieni('app.env'), $verifica_ambiente);
         }
 
-        return env('APP_ENV');
+        return self::$APP->configurazione->ottieni('app.env');
     }
 
     public function gestisciErrori(): GruGru
     {
-        if ($this->configurazione->ottieni('app.debug') && self::ambiente('local')) {
+        if ($this->configurazione->ottieni('app.debug') && self::ambiente('locale')) {
             ini_set('display_errors', '1');
             error_reporting(E_ALL);
             $this->gestioneEccezioni();
@@ -112,7 +115,7 @@ class GruGru
         set_error_handler(array("Core\Exception\GestisciErrori", "getStaticError"));
     }
 
-    public function configurazione()
+    public function conf()
     {
         echo '<pre>';
         var_dump($this->config);
@@ -131,7 +134,7 @@ class GruGru
         $driver;
         switch ($driver) {
             case 'sqlite':
-                $driver = new DatabaseSqlite($this->configurazione->ottieni('connection.sqlite'));
+                $driver = new DatabaseSqlite($this->configurazione->ottieni('database.connection.sqlite'));
                 break;
 
             case 'mysql':
@@ -139,7 +142,7 @@ class GruGru
                 break;
 
             default:
-                $driver = new DatabaseMysql($this->configurazione->ottieni('connection.mysql'));
+                $driver = new DatabaseMysql($this->configurazione->ottieni('database.connection.mysql'));
                 break;
         }
 
