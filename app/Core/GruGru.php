@@ -22,6 +22,8 @@ class GruGru
     public static GruGru $APP;
     public static $ROOTDIR;
 
+    private const string VERSIONE_MINIMA_PHP = '8.3.0';
+
     public static string $VERSIONE = '0.3.2';
     public static array $ROTTE_REGISTRATE = [];
 
@@ -61,6 +63,41 @@ class GruGru
     public function registraFileRotta(string|array $rotta = 'web'): void
     {
         $this->rotte->registraRotta($rotta);
+    }
+
+    public function verificaVersioneMinimaPHP(): GruGru
+    {
+        $versione_minima_php = self::VERSIONE_MINIMA_PHP;
+        if (version_compare(PHP_VERSION, $versione_minima_php, '<')) {
+            throw new \Exception("La versione minima di PHP richiesta è {$versione_minima_php}. La versione attuale è " . PHP_VERSION);
+        }
+        return $this;
+    }
+
+    public static function ambiente(string|array|null $verifica_ambiente = null): string|bool
+    {
+        if (\is_string($verifica_ambiente)) {
+            return env('APP_ENV') === $verifica_ambiente;
+        }
+
+        if (\is_array($verifica_ambiente)) {
+            return \in_array(env('APP_ENV'), $verifica_ambiente);
+        }
+
+        return env('APP_ENV');
+    }
+
+    public function gestioneErrori(): GruGru
+    {
+        if ($this->configurazione->ottieni('app.debug')) {
+            ini_set('display_errors', '1');
+            error_reporting(E_ALL);
+        } else {
+            ini_set('display_errors', '0');
+            error_reporting(0);
+        }
+
+        return $this;
     }
 
     public function configurazione()
