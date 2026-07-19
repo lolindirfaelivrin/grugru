@@ -12,12 +12,12 @@ abstract class Seeder
     {
         // Initialize any necessary dependencies or configurations here
     }
-    abstract public function run(): void;
+    abstract public function avvia(): void;
 
-    public function call(string $seederClass): void
+    public function registra(string $seederClass): void
     {
         $seeder = new $seederClass($this->databaseInterface);
-        $seeder->run();
+        $seeder->avvia();
     }
 
 }
