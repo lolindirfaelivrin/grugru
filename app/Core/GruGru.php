@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 namespace Core;
+
 use Core\Database\Driver\DatabaseMysql;
 use Core\Database\Driver\DatabaseSqlite;
 use Core\Http\Request;
@@ -17,6 +18,7 @@ use Core\Database\Database;
 use Core\Controller\Controller;
 use Core\Interface\DatabaseInterface;
 use Core\Vista\Vista;
+use Libreria\Falsifica\Falsifica;
 
 
 /** @package Core */
@@ -60,7 +62,6 @@ final class GruGru
         $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
 
         self::$FILE_ROTTE_REGISTRATE = [];
-
     }
 
     /**
@@ -118,6 +119,31 @@ final class GruGru
             ini_set('display_errors', '0');
             error_reporting(0);
         }
+
+        return $this;
+    }
+
+    /**
+     * Si occupa di registrare i providers contenuti nella cartella provider. 
+     * I providers sono classi che forniscono servizi o funzionalità specifiche all'applicazione.
+     * @return GruGru
+     */
+    public function registraProviders(): GruGru
+    {
+        $percorso_providers = self::$ROOTDIR . '/app/provider';
+
+        foreach (glob(rtrim($percorso_providers, '/') . '/*.php') as $file) {
+            $fornitore = require $file;
+
+            if (!is_array($fornitore)) {
+                throw new \RuntimeException(sprintf('Il file provider "%s" deve ritornare un array.', $file));
+            }
+
+            foreach ($fornitori as $fornitore => $fabbrica) {
+                Falsifica::registraFornitore($fornitore, $fabbrica);
+            }
+        }
+
 
         return $this;
     }
@@ -184,6 +210,4 @@ final class GruGru
 
         return $configurazione;
     }
-
-
 }
