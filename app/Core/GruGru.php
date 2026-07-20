@@ -19,10 +19,11 @@ use Core\Interface\DatabaseInterface;
 use Core\Vista\Vista;
 
 
-class GruGru
+/** @package Core */
+final class GruGru
 {
     public static GruGru $APP;
-    public static $ROOTDIR;
+    public static string $ROOTDIR;
 
     private const string VERSIONE_MINIMA_PHP = '8.3.0';
 
@@ -62,6 +63,10 @@ class GruGru
 
     }
 
+    /**
+     * @param string|array $rotta 
+     * @return GruGru 
+     */
     public function registraFileRotta(string|array $rotta = 'web'): GruGru
     {
         $this->rotte->registraRotta($rotta);
@@ -70,6 +75,9 @@ class GruGru
         return $this;
     }
 
+    /**
+     * @return GruGru 
+     */
     public function verificaVersioneMinimaPHP(): GruGru
     {
         $versione_minima_php = self::VERSIONE_MINIMA_PHP;
@@ -79,6 +87,10 @@ class GruGru
         return $this;
     }
 
+    /**
+     * @param string|array|null $verifica_ambiente 
+     * @return string|bool 
+     */
     public static function ambiente(string|array|null $verifica_ambiente = null): string|bool
     {
         if (\is_string($verifica_ambiente)) {
@@ -92,6 +104,9 @@ class GruGru
         return self::$APP->configurazione->ottieni('app.env');
     }
 
+    /**
+     * @return GruGru 
+     */
     public function gestisciErrori(): GruGru
     {
         if ($this->configurazione->ottieni('app.debug') && self::ambiente('locale')) {
@@ -107,17 +122,27 @@ class GruGru
         return $this;
     }
 
+    /**
+     * @return void
+     */
     private function gestioneEccezioni(): void
     {
         set_exception_handler(array("Core\Exception\GestisciEccezioni", "getStaticException"));
     }
 
+    /**
+     * @return void
+     */
     private function gestioneErrori(): void
     {
         set_error_handler(array("Core\Exception\GestisciErrori", "getStaticError"));
     }
 
-    private function ottieniTipoDatabase(string $driver)
+    /**
+     * @param string $driver
+     * @return DatabaseInterface
+     */
+    private function ottieniTipoDatabase(string $driver): DatabaseInterface
     {
         //TODO: Guarda il codice generato da chatGpt.
         $driver;
@@ -138,6 +163,9 @@ class GruGru
         return $driver;
     }
 
+    /**
+     * @return array
+     */
     public function creaConfigurazione(): array
     {
         $configurazione = [];
