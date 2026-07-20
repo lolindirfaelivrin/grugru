@@ -130,7 +130,7 @@ final class GruGru
      */
     public function registraProviders(): GruGru
     {
-        $percorso_providers = self::$ROOTDIR . '/app/provider';
+        $percorso_providers = self::percorso('/app/provider');
 
         foreach (glob(rtrim($percorso_providers, '/') . '/*.php') as $file) {
             $fornitore = require $file;
@@ -139,11 +139,10 @@ final class GruGru
                 throw new \RuntimeException(sprintf('Il file provider "%s" deve ritornare un array.', $file));
             }
 
-            foreach ($fornitori as $fornitore => $fabbrica) {
-                Falsifica::registraFornitore($fornitore, $fabbrica);
+            foreach ($fornitore as $classeFornitore => $fabbrica) {
+                Falsifica::registraFornitore($classeFornitore, $fabbrica);
             }
         }
-
 
         return $this;
     }
@@ -190,19 +189,47 @@ final class GruGru
     }
 
     /**
+     * Risolve un percorso relativo alla root dell'applicazione (self::$ROOTDIR),
+     * garantendo che il risultato non possa mai uscire dalla root
+     * (protezione da path traversal).
+     *
+     * @param string $relativo
+     * @return string
+     */
+    public static function percorso(string $relativo): string
+    {
+        $relativo = ltrim(str_replace('\\', '/', $relativo), '/');
+        $percorso = rtrim(self::$ROOTDIR, '/') . '/' . $relativo;
+
+        $radiceReale = realpath(self::$ROOTDIR);
+
+        if ($radiceReale === false) {
+            throw new \RuntimeException('Impossibile risolvere self::$ROOTDIR.');
+        }
+
+        $percorsoReale = realpath($percorso);
+
+        // Se il percorso esiste già sul filesystem, verifica che resti dentro la radice
+        if ($percorsoReale !== false && !str_starts_with($percorsoReale, $radiceReale)) {
+            throw new \RuntimeException(sprintf('Il percorso "%s" esce dalla radice dell\'applicazione.', $relativo));
+        }
+
+        return $percorsoReale !== false ? $percorsoReale : $percorso;
+    }
+
+    /**
      * @return array
      */
     public function creaConfigurazione(): array
     {
         $configurazione = [];
-        $configurazione_directory = self::$ROOTDIR . '/config';
+        $configurazione_directory = self::percorso('config');
 
         $file_configurazione = glob(rtrim($configurazione_directory, '/') . '/*.php');
 
         if ($file_configurazione === false) {
             throw new \Exception("Errore nella lettura dei file di configurazione");
         }
-
         foreach ($file_configurazione as $file) {
             $nome_file = basename($file, '.php');
             $configurazione[$nome_file] = require $file;
