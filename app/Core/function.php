@@ -189,19 +189,20 @@ if (!function_exists('windows_os')) {
     }
 }
 
-if (!function_exists('session')) {
+if (!function_exists('sessione')) {
     /**
      * Restituisce una variabile di sessione
+     * Se chiamata senza argomenti, ritorna l'intera istanza di Session, permettendo
+     * l'accesso fluente ai suoi metodi.
      *
      * @param string|null $chiave
      * @param string|null $predefinito
-     * @return string|null 
      */
-    function session(?string $chiave = null, ?string $predefinito = null): ?string
+    function sessione(?string $chiave = null, ?string $predefinito = null)
     {
-        if (is_null($chiave)) {
+        if ($chiave === null) {
             /** @var GruGru Grugru */
-            return GruGru::$APP->session->__toString();
+            return GruGru::$APP->session;
         }
 
         return GruGru::$APP->session->prendiValoreChiave($chiave, $predefinito);
@@ -240,9 +241,12 @@ if (!function_exists('router')) {
     }
 }
 
-function valore($valore, ...$argomenti)
-{
-    return $valore instanceof Closure ? $valore(...$argomenti) : $valore;
+if (!function_exists('valore')) {
+    function valore($valore, ...$argomenti)
+    {
+        return $valore instanceof Closure ? $valore(...$argomenti) : $valore;
+
+    }
 
 }
 
@@ -271,5 +275,42 @@ if (!function_exists('ipAnonimo')) {
         }
 
         return 'sconosciuto';
+    }
+}
+
+if (!function_exists('configurazione')) {
+    /**
+     * Fornisce un accesso rapido alla configurazione dell'applicazione tramite
+     * l'istanza singleton GruGru::$APP, senza dover passare esplicitamente per
+     * GruGru::$APP->configurazione.
+     *
+     * Se chiamata senza argomenti, ritorna l'intera istanza di Config, permettendo
+     * l'accesso fluente ai suoi metodi.
+     *
+     * @param string|null $chiave   Chiave di configurazione in dot notation
+     *                               (es. 'app.debug'). Se null, ritorna l'istanza
+     *                               di Config anziché un valore.
+     * @param mixed       $predefinito Valore restituito se $chiave non esiste.
+     *                               Ignorato se $chiave è null.
+     *
+     * @return mixed|Core\Config Il valore di configurazione corrispondente a $chiave,
+     *                       $predefinito se la chiave non esiste, oppure l'istanza
+     *                       di Config se $chiave è null.
+     *
+     * @throws \RuntimeException Se GruGru::$APP non è ancora stato inizializzato.
+     */
+    function configurazione(?string $chiave = null, $predefinito = null)
+    {
+        if (!isset(GruGru::$APP)) {
+            throw new \RuntimeException(
+                'GruGru non è stato ancora inizializzato: impossibile leggere la configurazione prima del bootstrap dell\'applicazione.'
+            );
+        }
+
+        if ($chiave === null) {
+            return GruGru::$APP->configurazione;
+        }
+
+        return GruGru::$APP->configurazione->ottieni($chiave, $predefinito);
     }
 }
