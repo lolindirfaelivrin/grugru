@@ -44,7 +44,7 @@ final class GruGru
     public Vista $vista;
     public RouterGestore $rotte;
 
-    public function __construct(string $rootdir)
+    public function __construct(?string $rootdir = null)
     {
         self::$APP = $this;
         self::$ROOTDIR = $rootdir ?? dirname(__DIR__);
@@ -57,7 +57,7 @@ final class GruGru
         $this->controller = new Controller();
         $this->session = new Session();
         $this->config = $this->creaConfigurazione();
-        $this->configurazione = new Config($this->config);
+        $this->configurazione = new Config('config', 'storage/cache');
         $this->vista = new Vista();
         $this->db = new Database($this->ottieniTipoDatabase($this->configurazione->ottieni('default')));
 
