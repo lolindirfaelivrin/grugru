@@ -98,15 +98,15 @@ if (!function_exists('dump')) {
 
 if (!function_exists('env')) {
     /**
-     * Gets the value of an environment variable.
+     * Ottiene il valore di una variabile di ambiente
      *
-     * @param  string  $key
-     * @param  mixed  $default
+     * @param  string  $chiave
+     * @param  mixed  $predefinito
      * @return mixed
      */
-    function env($key, $default = null): ?string
+    function env($chiave, $predefinito = null)
     {
-        return $_ENV[$key] ?? $default;
+        return $_ENV[$chiave] ?? $predefinito;
     }
 }
 
